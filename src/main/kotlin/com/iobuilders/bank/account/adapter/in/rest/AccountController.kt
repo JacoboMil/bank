@@ -24,16 +24,16 @@ class AccountController(
         return super.createAccount(accountRequest)
     }
 
-    override fun getAccountById(accountID: UUID): ResponseEntity<AccountResponse> {
-        return super.getAccountById(accountID)
+    override fun getAccountById(accountId: UUID): ResponseEntity<AccountResponse> {
+        return super.getAccountById(accountId)
     }
 
-    override fun getAccountsByUser(userID: UUID): ResponseEntity<Accounts> {
-        return super.getAccountsByUser(userID)
+    override fun getAccountsByUser(userId: UUID): ResponseEntity<Accounts> {
+        return super.getAccountsByUser(userId)
     }
 
-    override fun updateAccountAmount(accountID: UUID, amount: BigDecimal): ResponseEntity<AccountResponse> {
-        return super.updateAccountAmount(accountID, amount)
+    override fun updateAccountAmount(accountId: UUID, amount: BigDecimal): ResponseEntity<AccountResponse> {
+        return super.updateAccountAmount(accountId, amount)
     }
 
 }

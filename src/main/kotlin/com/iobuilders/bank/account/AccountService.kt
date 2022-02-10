@@ -26,9 +26,12 @@ class AccountService(
         return accountRepository.findByUserId(userId)
     }
 
+    /*
     fun getAccountByIBAN(iban: String): Account {
         return accountRepository.findByIBAN(iban)
     }
+
+     */
 
     fun substractAmount(accountId: UUID, amount: BigDecimal): Account {
         val account = accountRepository.getById(accountId)

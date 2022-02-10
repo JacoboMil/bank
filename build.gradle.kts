@@ -17,23 +17,33 @@ repositories {
     mavenCentral()
 }
 
-extra["springCloudVersion"] = "2021.0.0"
+extra["springCloudVersion"] = "${property("springCloudVersion")}"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation("org.springdoc:springdoc-openapi-data-rest:1.6.5")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.5")
-    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.5")
+    implementation("org.springdoc:springdoc-openapi-data-rest:${property("openapiVersion")}")
+    implementation("org.springdoc:springdoc-openapi-ui:${property("openapiVersion")}")
+    implementation("org.springdoc:springdoc-openapi-kotlin:${property("openapiVersion")}")
     implementation("javax.validation:validation-api:2.0.1.Final")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    implementation("org.zalando:problem-spring-web:${property("problemVersion")}")
+    implementation("org.zalando:problem:${property("problemVersion")}")
+    implementation("org.zalando:jackson-datatype-problem:${property("problemVersion")}")
+    implementation("org.zalando:problem-gson:${property("problemVersion")}")
+
     implementation("com.h2database:h2")
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:${property("mockitoVersion")}")
 }
 
 dependencyManagement {
