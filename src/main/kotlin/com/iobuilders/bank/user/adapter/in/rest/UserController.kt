@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
+
 @RestController
 class UserController(
     private val userService: UserService,
@@ -22,34 +23,31 @@ class UserController(
 
     override fun createUser(userRequest: UserRequest): ResponseEntity<UserResponse> {
         log.info("createUser UserRequest:$userRequest")
-
-        val newUser = userService.createUser(
-            userRequest.username,
-            userRequest.firstName,
-            userRequest.lastName,
-            userRequest.email
-        )
-
         return ResponseEntity(
-            userResponseConverter.convert(newUser),
+            userResponseConverter.convert(
+                userService.createUser(
+                    userRequest.username,
+                    userRequest.firstName,
+                    userRequest.lastName,
+                    userRequest.email
+                )
+            ),
             HttpStatus.CREATED
         )
     }
 
     override fun getUserById(userId: UUID): ResponseEntity<UserResponse> {
         log.info("getUserById userId:$userId")
-
-        val user = userService.getUserById(userId)
-
         return ResponseEntity(
-            userResponseConverter.convert(user),
+            userResponseConverter.convert(
+                userService.getUserById(userId)
+            ),
             HttpStatus.OK
         )
     }
 
     override fun deleteUser(userId: UUID): ResponseEntity<UserResponse> {
         log.info("deleteUserById userId:$userId")
-
         userService.deleteUser(userId)
         return ResponseEntity(HttpStatus.OK)
     }
