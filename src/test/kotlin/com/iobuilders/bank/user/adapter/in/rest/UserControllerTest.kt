@@ -33,10 +33,10 @@ internal class UserControllerTest : TestUtils() {
     @BeforeEach
     fun setUp() {
         openMocks(this)
-        mockMvc = MockMvcBuilders.standaloneSetup(UserController(userService, userResponseConverter)).build()
         mapper = jacksonObjectMapper()
         userResponseConverter = UserResponseConverter()
         userController = UserController(userService, userResponseConverter)
+        mockMvc = MockMvcBuilders.standaloneSetup(UserController(userService, userResponseConverter)).build()
     }
 
     @Test
