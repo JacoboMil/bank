@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 @RunWith(SpringRunner::class)
 @WebMvcTest(UserController::class)
-internal class UserControllerTest() : TestUtils() {
+internal class UserControllerTest : TestUtils() {
 
     private lateinit var mockMvc: MockMvc
     private lateinit var mapper: ObjectMapper
