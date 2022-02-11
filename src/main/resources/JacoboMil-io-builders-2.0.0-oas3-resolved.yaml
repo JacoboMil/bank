@@ -294,6 +294,11 @@ components:
           type: string
           format: uuid
           example: ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7
+        username:
+          maxLength: 50
+          pattern: /^[a-z ,.'-]+$/i
+          type: string
+          example: FirstName
         firstName:
           maxLength: 50
           pattern: /^[a-z ,.'-]+$/i
