@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: iobuilders-bank
+  profiles:
+    active: test
+
+problem:
+  stackTraces: false

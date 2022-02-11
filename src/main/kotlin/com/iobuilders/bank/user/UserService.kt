@@ -36,6 +36,8 @@ class UserService(
 
     fun getUserById(userId: UUID): User {
         return userRepository.findByIdOrNull(userId) ?: throw UserNotFoundException("User with id:$userId not found")
+
+        //return userRepository.getById(userId) ?: throw UserNotFoundException("User with id:$userId not found")
     }
 
     fun deleteUser(userId: UUID) {
