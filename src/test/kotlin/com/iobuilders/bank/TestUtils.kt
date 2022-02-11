@@ -1,5 +1,7 @@
 package com.iobuilders.bank
 
+import com.iobuilders.bank.model.UserRequest
+import com.iobuilders.bank.model.UserResponse
 import com.iobuilders.bank.user.model.User
 import java.util.*
 
@@ -13,6 +15,25 @@ open class TestUtils {
     fun createUser(): User {
         return User(
             id = uuid,
+            username = text,
+            firstName = text,
+            lastName = text,
+            email = email
+        )
+    }
+
+    fun createUserRequest(): UserRequest {
+        return UserRequest(
+            username = text,
+            firstName = text,
+            lastName = text,
+            email = email
+        )
+    }
+
+    fun createUserResponse(): UserResponse {
+        return UserResponse(
+            userId = uuid,
             username = text,
             firstName = text,
             lastName = text,
