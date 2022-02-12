@@ -5,7 +5,8 @@ import com.iobuilders.bank.api.AccountsApi
 import com.iobuilders.bank.model.AccountRequest
 import com.iobuilders.bank.model.AccountResponse
 import com.iobuilders.bank.model.Accounts
-import org.slf4j.LoggerFactory
+import org.slf4j.LoggerFactory.getLogger
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
@@ -13,27 +14,34 @@ import java.util.*
 
 @RestController
 class AccountController(
-    private val accountService: AccountService
-    ): AccountsApi {
+    private val accountService: AccountService,
+    private val accountResponseConverter: AccountResponseConverter
+): AccountsApi {
 
     companion object {
-        private val log = LoggerFactory.getLogger(AccountController::class.java)
+        private val log = getLogger(AccountController::class.java)
     }
 
     override fun createAccount(accountRequest: AccountRequest): ResponseEntity<AccountResponse> {
-        return super.createAccount(accountRequest)
+        log.info("createAccount AccountRequest:$accountRequest")
+        return ResponseEntity(
+            accountResponseConverter.convert(
+                accountService.createAccount(accountRequest.userId)
+            ),
+            HttpStatus.CREATED
+        )
     }
 
     override fun getAccountById(accountId: UUID): ResponseEntity<AccountResponse> {
-        return super.getAccountById(accountId)
+        return ResponseEntity(HttpStatus.OK)
     }
 
     override fun getAccountsByUser(userId: UUID): ResponseEntity<Accounts> {
-        return super.getAccountsByUser(userId)
+        return ResponseEntity(HttpStatus.OK)
     }
 
     override fun updateAccountAmount(accountId: UUID, amount: BigDecimal): ResponseEntity<AccountResponse> {
-        return super.updateAccountAmount(accountId, amount)
+        return ResponseEntity(HttpStatus.OK)
     }
 
 }

@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.zalando.problem.Problem
+import org.zalando.problem.Status
 
 @ControllerAdvice
 class UserExceptionHandler : BaseExceptionHandler() {
@@ -18,15 +20,17 @@ class UserExceptionHandler : BaseExceptionHandler() {
     }
 
     @ExceptionHandler(value = [(UserNotFoundException::class)])
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     fun handleUserNotFound(ex: UserNotFoundException): ResponseEntity<Problem> {
         log.warn(ex.message)
-        return problemResponseBuilder(HttpStatus.NOT_FOUND, ex, ex.title)
+        return problemResponseBuilder(Status.NOT_FOUND, ex, ex.title)
     }
 
     @ExceptionHandler(value = [(UsernameAlreadyExistsException::class)])
+    @ResponseStatus(HttpStatus.CONFLICT)
     fun handleUsernameAlreadyExists(ex: UsernameAlreadyExistsException): ResponseEntity<Problem> {
         log.warn(ex.message)
-        return problemResponseBuilder(HttpStatus.CONFLICT, ex, ex.title)
+        return problemResponseBuilder(Status.CONFLICT, ex, ex.title)
     }
 
 }

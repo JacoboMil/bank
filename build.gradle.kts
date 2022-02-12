@@ -61,6 +61,8 @@ dependencies {
 
     implementation("com.h2database:h2")
 
+    implementation("org.iban4j:iban4j:${property("iban4jVersion")}")
+
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")

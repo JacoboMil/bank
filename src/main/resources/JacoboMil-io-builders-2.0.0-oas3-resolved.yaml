@@ -1,22 +1,22 @@
 openapi: 3.0.0
 info:
-  title: IOBuilders-Bank
-  description: This is a Rest API for ioBuilders-bank
+  description: IOBuilders-Bank
+  version: "1.0.0"
+  title: This is a Rest API for ioBuilders-bank
   contact:
-    email: jacobo.millan@outlook.com
+    email: you@your-company.com
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-- url: /v1
+  - url: /v1
 tags:
-- name: Users
-  description: Operations about users
-- name: Accounts
-  description: Operations about accounts
-- name: Transactions
-  description: Operations about transactions
+  - name: Users
+    description: Operations about users
+  - name: Accounts
+    description: Operations about accounts
+  - name: Transactions
+    description: Operations about transactions
 paths:
   /users:
     post:
@@ -43,7 +43,7 @@ paths:
       tags:
       - Users
       summary: Get user info
-      description: get user info
+      description: Retrieve user information
       operationId: get_user_by_id
       parameters:
       - name: userId
@@ -67,7 +67,7 @@ paths:
       tags:
         - Users
       summary: Delete user
-      description: get user info
+      description: Delete user information
       operationId: delete_user
       parameters:
         - name: userId
@@ -81,40 +81,13 @@ paths:
             type: string
             format: uuid
       responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserResponse'
+        204:
+          description: No content
+
   /accounts:
-    get:
-      tags:
-      - Accounts
-      summary: User Accounts
-      description: Get User Account List find by User
-      operationId: get_accounts_by_user
-      parameters:
-      - name: userId
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          maxLength: 36
-          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-          type: string
-          format: uuid
-      responses:
-        200:
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Accounts'
     post:
       tags:
-      - Accounts
+        - Accounts
       summary: New Account
       description: Create a new account
       operationId: create_account
@@ -131,12 +104,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
+    get:
+      tags:
+      - Accounts
+      summary: User Accounts
+      description: Retrieve a list of accounts with same owner
+      operationId: get_accounts_by_user
+      parameters:
+      - name: userId
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          maxLength: 36
+          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts'
+
   /accounts/{accountId}:
     get:
       tags:
       - Accounts
       summary: Account info
-      description: get Account info
+      description: Retrieve user information
       operationId: get_account_by_id
       parameters:
       - name: accountId
@@ -269,22 +267,22 @@ components:
           maxLength: 50
           pattern: /^[a-z ,.'-]+$/i
           type: string
-          example: Name
+          example: johndoe
         firstName:
           maxLength: 50
           pattern: /^[a-z ,.'-]+$/i
           type: string
-          example: Name
+          example: John
         lastName:
           maxLength: 50
           pattern: /^[a-z ,.'-]+$/i
           type: string
-          example: Surname Name
+          example: Doe
         email:
           maxLength: 50
           pattern: (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
           type: string
-          example: mail@mail.com
+          example: jdoe@iobuilders.com
     UserResponse:
       type: object
       properties:
@@ -293,29 +291,26 @@ components:
           pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
           type: string
           format: uuid
-          example: ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7
+          example: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
         username:
           maxLength: 50
           pattern: /^[a-z ,.'-]+$/i
           type: string
-          example: FirstName
+          example: johndoe
         firstName:
           maxLength: 50
           pattern: /^[a-z ,.'-]+$/i
           type: string
-          example: FirstName
+          example: John
         lastName:
           maxLength: 50
           pattern: /^[a-z ,.'-]+$/i
           type: string
-          example: LastName
+          example: Doe
         email:
           pattern: (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
           type: string
-          example: mail@mail.com
-        uri:
-          type: string
-          example: /users/ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7
+          example: jdoe@iobuilders.com
     Transactions:
       type: object
       properties:
@@ -335,45 +330,44 @@ components:
           maximum: 90000000000000
           minimum: 0
           type: number
-          example: 100.55
+          example: 00.00
         beneficiaryIBAN:
           maxLength: 24
           pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
           type: string
-          example: ES9121000418450200051332
+          example: ES0000000000000000000000
         issuerIBAN:
           maxLength: 24
           pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
           type: string
-          example: ES7921000813610123456789
+          example: ES0000000000000000000000
     TransactionResponse:
       type: object
       properties:
         transactionId:
           type: string
           format: uuid
-          example: ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7
-        uri:
-          type: string
-          example: /transactions/eda91322-4924-11ec-81d3-0242ac130003
+          example: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
         amount:
           type: number
-          example: 100.55
+          example: 00.00
         beneficiaryIBAN:
           maxLength: 24
           pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
           type: string
-          example: ES9121000418450200051332
+          example: ES0000000000000000000000
         issuerIBAN:
           maxLength: 24
           pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
           type: string
-          example: ES7921000813610123456789
+          example: ES0000000000000000000000
         date:
           type: string
           format: date-time
     AccountRequest:
       type: object
+      required:
+        - userId
       properties:
         userId:
           maxLength: 36
@@ -388,15 +382,12 @@ components:
           pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
           type: string
           format: uuid
-          example: d8a1e7b6-655b-4f0a-9c30-039cd84c2eb5
+          example: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
         iban:
           maxLength: 24
           pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
           type: string
-          example: ES9121000418450200051332
-        uri:
-          type: string
-          example: /accounts/d8a1e7b6-655b-4f0a-9c30-039cd84c2eb5
+          example: ES0000000000000000000000
         owner:
           type: string
           example: /users/ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7
@@ -404,7 +395,7 @@ components:
           maximum: 90000000000000
           minimum: 0
           type: number
-          example: 1500.2
+          example: 00.00
     Accounts:
       type: object
       properties:
@@ -417,16 +408,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AccountResponse'
-    errorResponse:
-      type: object
-      properties:
-        message:
-          maxLength: 500
-          pattern: /^[a-z ,.'-]+$/i
-          type: string
-        status:
-          maximum: 599
-          minimum: 100
-          type: number
-        timestamp:
-          type: string

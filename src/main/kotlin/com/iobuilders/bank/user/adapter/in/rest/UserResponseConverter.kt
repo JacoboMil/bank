@@ -13,7 +13,7 @@ class UserResponseConverter : Converter<User, UserResponse> {
             username = source.username,
             firstName = source.firstName,
             lastName = source.lastName,
-            email = source.email
+            email = source.email,
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.iobuilders.bank
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.beans.factory.annotation.Value
@@ -20,6 +21,6 @@ class JacksonConfiguration(
             ProblemModule().withStackTraces(stackTraces),
             ConstraintViolationProblemModule(),
             KotlinModule()
-        )
+        ).setSerializationInclusion(JsonInclude.Include.NON_NULL)
     }
 }

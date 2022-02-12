@@ -5,9 +5,10 @@ import com.iobuilders.bank.model.UserRequest
 import com.iobuilders.bank.model.UserResponse
 import com.iobuilders.bank.user.UserService
 import org.slf4j.LoggerFactory.getLogger
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import java.net.URI
 import java.util.*
 
 
@@ -23,33 +24,33 @@ class UserController(
 
     override fun createUser(userRequest: UserRequest): ResponseEntity<UserResponse> {
         log.info("createUser UserRequest:$userRequest")
-        return ResponseEntity(
-            userResponseConverter.convert(
-                userService.createUser(
-                    userRequest.username,
-                    userRequest.firstName,
-                    userRequest.lastName,
-                    userRequest.email
-                )
-            ),
-            HttpStatus.CREATED
+
+        val user = userService.createUser(
+            userRequest.username,
+            userRequest.firstName,
+            userRequest.lastName,
+            userRequest.email
         )
+
+        val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(user.id)
+            .toUri()
+
+        return ResponseEntity.created(uri).body(userResponseConverter.convert(user))
     }
 
     override fun getUserById(userId: UUID): ResponseEntity<UserResponse> {
         log.info("getUserById userId:$userId")
-        return ResponseEntity(
-            userResponseConverter.convert(
-                userService.getUserById(userId)
-            ),
-            HttpStatus.OK
+        return ResponseEntity.ok(
+            userResponseConverter.convert(userService.getUserById(userId))
         )
     }
 
-    override fun deleteUser(userId: UUID): ResponseEntity<UserResponse> {
+    override fun deleteUser(userId: UUID): ResponseEntity<Unit> {
         log.info("deleteUserById userId:$userId")
         userService.deleteUser(userId)
-        return ResponseEntity(HttpStatus.OK)
+        return ResponseEntity.noContent().build()
     }
 
 }

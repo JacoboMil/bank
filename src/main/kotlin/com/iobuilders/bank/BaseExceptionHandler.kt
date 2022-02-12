@@ -7,12 +7,12 @@ import org.zalando.problem.Status
 
 open class BaseExceptionHandler {
 
-    fun problemResponseBuilder(status: HttpStatus, ex: Exception, title: String): ResponseEntity<Problem> {
+    fun problemResponseBuilder(status: Status, ex: Exception, title: String): ResponseEntity<Problem> {
         val result = Problem.builder()
             .withTitle(title)
-            .withStatus(Status.valueOf(status.value()))
+            .withStatus(status)
             .withDetail(ex.localizedMessage)
             .build()
-        return ResponseEntity<Problem>(result, status)
+        return ResponseEntity<Problem>(result, HttpStatus.valueOf(status.statusCode))
     }
 }
