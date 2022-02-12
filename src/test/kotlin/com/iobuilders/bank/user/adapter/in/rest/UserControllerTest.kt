@@ -68,6 +68,6 @@ internal class UserControllerTest : TestUtils() {
         mockMvc.perform(delete("/v1/users/$uuid")
             .content(this.mapper.writeValueAsString(uuid))
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk)
+            .andExpect(status().`is`(204))
     }
 }

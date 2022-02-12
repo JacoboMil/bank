@@ -95,7 +95,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountRequest'
+              $ref: '#/components/schemas/CreateAccountRequest'
         required: true
       responses:
         201:
@@ -127,7 +127,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Accounts'
+                $ref: '#/components/schemas/AccountsResponse'
 
   /accounts/{accountId}:
     get:
@@ -157,9 +157,9 @@ paths:
     patch:
       tags:
       - Accounts
-      summary: Set account Amount
-      description: Set account Balance
-      operationId: update_account_amount
+      summary: Update account Amount
+      description: Update account Balance
+      operationId: update_account
       parameters:
       - name: accountId
         in: path
@@ -171,16 +171,12 @@ paths:
           pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
           type: string
           format: uuid
-      - name: amount
-        in: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
         required: true
-        style: form
-        explode: true
-        schema:
-          maximum: 90000000000000
-          minimum: 0
-          type: number
-          format: mumber
       responses:
         200:
           description: UPDATED
@@ -364,7 +360,7 @@ components:
         date:
           type: string
           format: date-time
-    AccountRequest:
+    CreateAccountRequest:
       type: object
       required:
         - userId
@@ -374,6 +370,21 @@ components:
           pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
           type: string
           format: uuid
+    UpdateAccountRequest:
+      type: object
+      required:
+        - amount
+        - operation
+      properties:
+        amount:
+          type: number
+          example: 00.00
+        operation:
+          type: string
+          nullable: false
+          enum:
+            - add
+            - substract
     AccountResponse:
       type: object
       properties:
@@ -396,7 +407,7 @@ components:
           minimum: 0
           type: number
           example: 00.00
-    Accounts:
+    AccountsResponse:
       type: object
       properties:
         results:

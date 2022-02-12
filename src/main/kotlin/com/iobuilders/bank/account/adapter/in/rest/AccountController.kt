@@ -2,46 +2,63 @@ package com.iobuilders.bank.account.adapter.`in`.rest
 
 import com.iobuilders.bank.account.AccountService
 import com.iobuilders.bank.api.AccountsApi
-import com.iobuilders.bank.model.AccountRequest
-import com.iobuilders.bank.model.AccountResponse
-import com.iobuilders.bank.model.Accounts
+import com.iobuilders.bank.model.*
 import org.slf4j.LoggerFactory.getLogger
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
-import java.math.BigDecimal
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import java.net.URI
 import java.util.*
 
 @RestController
 class AccountController(
     private val accountService: AccountService,
-    private val accountResponseConverter: AccountResponseConverter
+    private val accountResponseConverter: AccountResponseConverter,
+    private val accountsResponseConverter: AccountsResponseConverter
 ): AccountsApi {
 
     companion object {
         private val log = getLogger(AccountController::class.java)
     }
 
-    override fun createAccount(accountRequest: AccountRequest): ResponseEntity<AccountResponse> {
-        log.info("createAccount AccountRequest:$accountRequest")
-        return ResponseEntity(
-            accountResponseConverter.convert(
-                accountService.createAccount(accountRequest.userId)
-            ),
-            HttpStatus.CREATED
-        )
+    override fun createAccount(createAccountRequest: CreateAccountRequest): ResponseEntity<AccountResponse> {
+        log.info("createAccount AccountRequest:$createAccountRequest")
+        val userId = createAccountRequest.userId
+        val account = accountService.createAccount(userId)
+
+        val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(userId)
+            .toUri()
+
+        return ResponseEntity.created(uri).body(accountResponseConverter.convert(account))
     }
 
     override fun getAccountById(accountId: UUID): ResponseEntity<AccountResponse> {
-        return ResponseEntity(HttpStatus.OK)
+        log.info("getAccountById accountId:$accountId")
+        return ResponseEntity.ok(
+            accountResponseConverter.convert(
+                accountService.getAccount(accountId)
+            )
+        )
     }
 
-    override fun getAccountsByUser(userId: UUID): ResponseEntity<Accounts> {
-        return ResponseEntity(HttpStatus.OK)
+    override fun getAccountsByUser(userId: UUID): ResponseEntity<AccountsResponse> {
+        log.info("getAccountsByUser userId:$userId")
+        return ResponseEntity.ok(
+            accountsResponseConverter.convert(
+                accountService.getAccountsByUser(userId)
+            )
+        )
     }
 
-    override fun updateAccountAmount(accountId: UUID, amount: BigDecimal): ResponseEntity<AccountResponse> {
-        return ResponseEntity(HttpStatus.OK)
+    override fun updateAccount(accountId: UUID, updateAccountRequest: UpdateAccountRequest): ResponseEntity<AccountResponse> {
+        log.info("updateAccount accountId:$accountId with $updateAccountRequest")
+        return ResponseEntity.ok(
+            accountResponseConverter.convert(
+                accountService.updateAccount(accountId, updateAccountRequest.amount, updateAccountRequest.operation)
+            )
+        )
     }
 
 }

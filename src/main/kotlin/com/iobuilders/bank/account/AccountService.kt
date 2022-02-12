@@ -1,6 +1,8 @@
 package com.iobuilders.bank.account
 
+import com.iobuilders.bank.account.exceptions.AccountNotFoundException
 import com.iobuilders.bank.account.model.Account
+import com.iobuilders.bank.model.UpdateAccountRequest
 import com.iobuilders.bank.user.UserRepository
 import com.iobuilders.bank.user.exceptions.UserNotFoundException
 import org.iban4j.CountryCode
@@ -29,30 +31,40 @@ class AccountService(
     }
 
     fun getAccount(accountId: UUID): Account {
-        return accountRepository.getById(accountId)
+        return accountRepository.findByIdOrNull(accountId)  ?: throw AccountNotFoundException("Account with accountId: $accountId not found")
     }
 
     fun getAccountsByUser(userId: UUID): List<Account> {
         return accountRepository.findByUserId(userId)
     }
 
-    /*
     fun getAccountByIBAN(iban: String): Account {
-        return accountRepository.findByIBAN(iban)
+        return accountRepository.findByIban(iban) ?: throw AccountNotFoundException("Account with IBAN: $iban not found")
     }
 
-     */
+    fun updateAccount(
+        accountId: UUID,
+        amount: BigDecimal,
+        operation: UpdateAccountRequest.Operation
+    ): Account {
+        val account: Account = when (operation) {
+            UpdateAccountRequest.Operation.add -> addAmount(accountId, amount)
+            UpdateAccountRequest.Operation.substract -> substractAmount(accountId, amount)
+        }
+        return accountRepository.saveAndFlush(account)
+    }
 
-    fun substractAmount(accountId: UUID, amount: BigDecimal): Account {
-        val account = accountRepository.getById(accountId)
-        account.amount.subtract(amount)
+    private fun addAmount(accountId: UUID, amount: BigDecimal): Account {
+        var account = accountRepository.getById(accountId)
+        var newAmount = account.amount.plus(amount)
+        account.amount = newAmount
         return account
     }
 
-    fun addAmount(accountId: UUID, amount: BigDecimal): Account {
-        val account = accountRepository.getById(accountId)
-        account.amount.add(amount)
+    private fun substractAmount(accountId: UUID, amount: BigDecimal): Account {
+        var account = accountRepository.getById(accountId)
+        var newAmount = account.amount.subtract(amount)
+        account.amount = newAmount
         return account
     }
-
 }
