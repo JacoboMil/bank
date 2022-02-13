@@ -3,8 +3,8 @@ package com.iobuilders.bank.transaction.domain
 import com.iobuilders.bank.account.domain.AccountRepository
 import com.iobuilders.bank.account.domain.exception.AccountNotFoundException
 import com.iobuilders.bank.account.domain.model.Account
-import com.iobuilders.bank.model.UpdateAccountBalanceRequest
 import com.iobuilders.bank.transaction.domain.exception.BalanceNotEnoughException
+import com.iobuilders.bank.transaction.domain.model.Operation
 import com.iobuilders.bank.transaction.domain.model.Transaction
 import com.iobuilders.bank.transaction.domain.usecase.MoneyTransferUseCase
 import org.springframework.data.repository.findByIdOrNull
@@ -58,18 +58,18 @@ class MoneyTransferService(
     }
 
     private fun balanceTransfer(originAccountId: UUID, destinationAccountId: UUID, amount: BigDecimal) {
-        updateAccount(originAccountId, amount, UpdateAccountBalanceRequest.Operation.substract)
-        updateAccount(destinationAccountId, amount, UpdateAccountBalanceRequest.Operation.add)
+        updateAccount(originAccountId, amount, Operation.SUBSTRACT_AMOUNT)
+        updateAccount(destinationAccountId, amount, Operation.ADD_AMOUNT)
     }
 
     private fun updateAccount(
         accountId: UUID,
         amount: BigDecimal,
-        operation: UpdateAccountBalanceRequest.Operation
+        operation: Operation
     ): Account {
         val account: Account = when (operation) {
-            UpdateAccountBalanceRequest.Operation.add -> addAmount(accountId, amount)
-            UpdateAccountBalanceRequest.Operation.substract -> substractAmount(accountId, amount)
+            Operation.ADD_AMOUNT -> addAmount(accountId, amount)
+            Operation.SUBSTRACT_AMOUNT -> substractAmount(accountId, amount)
         }
         return accountRepository.saveAndFlush(account)
     }
@@ -92,3 +92,5 @@ class MoneyTransferService(
         return account
     }
 }
+
+

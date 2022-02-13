@@ -53,7 +53,8 @@ internal class DisplayAccountServiceTest: TestUtils() {
         val result = displayAccountService.displayAccountTransactions(iban)
 
         verify(accountRepository, times(1)).findByIban(iban)
-        verify(transactionRepository, times(2))
+        verify(transactionRepository, times(1)).findByOriginAccountIban(iban)
+        verify(transactionRepository, times(1)).findByDestinationAccountIban(iban)
         assertNotNull(result)
         assertEquals(result.count(), 2)
     }
