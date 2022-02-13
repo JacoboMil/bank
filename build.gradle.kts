@@ -13,8 +13,6 @@ group = "com.iobuilders"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
-ext["log4j2.version"] = "${property("log4jVersion")}"
-
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
@@ -38,28 +36,25 @@ repositories {
 }
 
 dependencies {
-    implementation("ch.qos.logback:logback-core:${property("logbackVersion")}")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
 
-    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${property("datatypeVersion")}")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
 
     implementation("org.springdoc:springdoc-openapi-data-rest:${property("openapiVersion")}")
     implementation("org.springdoc:springdoc-openapi-ui:${property("openapiVersion")}")
     implementation("org.springdoc:springdoc-openapi-kotlin:${property("openapiVersion")}")
-    implementation("javax.validation:validation-api:2.0.1.Final")
 
     implementation("org.zalando:problem-spring-web:${property("problemVersion")}")
     implementation("org.zalando:problem:${property("problemVersion")}")
     implementation("org.zalando:jackson-datatype-problem:${property("problemVersion")}")
     implementation("org.zalando:problem-gson:${property("problemVersion")}")
-
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${property("datatypeVersion")}")
 
     implementation("com.h2database:h2")
 
@@ -70,7 +65,6 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.mockito.kotlin:mockito-kotlin:${property("mockitoVersion")}")
-    testImplementation("com.h2database:h2")
 
 }
 
@@ -105,6 +99,3 @@ sourceSets {
     val main by getting
     main.java.srcDir("${oasGenOutputDir.get()}/src/main/kotlin")
 }
-
-
-
