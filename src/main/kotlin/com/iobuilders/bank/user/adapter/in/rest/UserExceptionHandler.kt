@@ -1,8 +1,8 @@
 package com.iobuilders.bank.user.adapter.`in`.rest
 
 import com.iobuilders.bank.BaseExceptionHandler
-import com.iobuilders.bank.user.exceptions.UserNotFoundException
-import com.iobuilders.bank.user.exceptions.UsernameAlreadyExistsException
+import com.iobuilders.bank.user.exception.UserNotFoundException
+import com.iobuilders.bank.user.exception.UsernameAlreadyExistsException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

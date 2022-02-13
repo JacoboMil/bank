@@ -1,8 +1,8 @@
 package com.iobuilders.bank.user
 
 import com.iobuilders.bank.TestUtils
-import com.iobuilders.bank.user.exceptions.UserNotFoundException
-import com.iobuilders.bank.user.exceptions.UsernameAlreadyExistsException
+import com.iobuilders.bank.user.exception.UserNotFoundException
+import com.iobuilders.bank.user.exception.UsernameAlreadyExistsException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.assertThrows

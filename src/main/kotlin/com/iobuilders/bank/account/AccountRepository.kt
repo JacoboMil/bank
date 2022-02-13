@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface AccountRepository: JpaRepository<Account, UUID>
+interface AccountRepository: JpaRepository<Account, UUID> {
+    fun findByIban(iban: String): Account?
+}

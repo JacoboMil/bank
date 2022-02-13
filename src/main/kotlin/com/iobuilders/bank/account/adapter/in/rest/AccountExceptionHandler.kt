@@ -1,7 +1,7 @@
 package com.iobuilders.bank.account.adapter.`in`.rest
 
 import com.iobuilders.bank.BaseExceptionHandler
-import com.iobuilders.bank.account.exceptions.AccountNotFoundException
+import com.iobuilders.bank.account.exception.AccountNotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

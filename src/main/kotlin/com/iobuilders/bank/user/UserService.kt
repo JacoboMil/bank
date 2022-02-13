@@ -1,7 +1,7 @@
 package com.iobuilders.bank.user
 
-import com.iobuilders.bank.user.exceptions.UserNotFoundException
-import com.iobuilders.bank.user.exceptions.UsernameAlreadyExistsException
+import com.iobuilders.bank.user.exception.UserNotFoundException
+import com.iobuilders.bank.user.exception.UsernameAlreadyExistsException
 import com.iobuilders.bank.user.model.User
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.repository.findByIdOrNull

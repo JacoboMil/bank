@@ -191,9 +191,18 @@ paths:
       description: Get Transactions by account
       operationId: get_transactions
       parameters:
-      - name: iban
+      - name: originAccountIban
         in: query
-        required: true
+        required: false
+        style: form
+        explode: true
+        schema:
+          maxLength: 24
+          pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
+          type: string
+      - name: destinationAccountIban
+        in: query
+        required: false
         style: form
         explode: true
         schema:
@@ -206,7 +215,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transactions'
+                $ref: '#/components/schemas/TransactionsResponse'
     post:
       tags:
       - Transactions
@@ -306,7 +315,7 @@ components:
           pattern: (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
           type: string
           example: jdoe@iobuilders.com
-    Transactions:
+    TransactionsResponse:
       type: object
       properties:
         results:
@@ -320,18 +329,22 @@ components:
             $ref: '#/components/schemas/TransactionResponse'
     TransactionRequest:
       type: object
+      required:
+        - amount
+        - destinationAccountIban
+        - originAccountIban
       properties:
         amount:
           maximum: 90000000000000
           minimum: 0
           type: number
           example: 00.00
-        beneficiaryIBAN:
+        destinationAccountIban:
           maxLength: 24
           pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
           type: string
           example: ES0000000000000000000000
-        issuerIBAN:
+        originAccountIban:
           maxLength: 24
           pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
           type: string
@@ -346,17 +359,17 @@ components:
         amount:
           type: number
           example: 00.00
-        beneficiaryIBAN:
+        destinationAccountIban:
           maxLength: 24
           pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
           type: string
           example: ES0000000000000000000000
-        issuerIBAN:
+        originAccountIban:
           maxLength: 24
           pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
           type: string
           example: ES0000000000000000000000
-        date:
+        transactionDate:
           type: string
           format: date-time
     CreateAccountRequest:

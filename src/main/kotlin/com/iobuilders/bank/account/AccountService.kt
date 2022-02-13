@@ -1,10 +1,10 @@
 package com.iobuilders.bank.account
 
-import com.iobuilders.bank.account.exceptions.AccountNotFoundException
+import com.iobuilders.bank.account.exception.AccountNotFoundException
 import com.iobuilders.bank.account.model.Account
 import com.iobuilders.bank.model.UpdateAccountRequest
 import com.iobuilders.bank.user.UserRepository
-import com.iobuilders.bank.user.exceptions.UserNotFoundException
+import com.iobuilders.bank.user.exception.UserNotFoundException
 import org.iban4j.CountryCode
 import org.iban4j.Iban
 import org.springframework.data.repository.findByIdOrNull
