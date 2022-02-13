@@ -70,7 +70,7 @@ internal class AccountControllerTest : TestUtils() {
 
     @Test
     fun whenGetAccountsByUserRequestIdWithValidId_thenReturn200() {
-        `when`(accountService.getAccountsByUser(uuid)).thenReturn(listOf( createAccount()))
+        `when`(accountService.getAccounts(uuid)).thenReturn(listOf( createAccount()))
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("/v1/accounts?userId=$uuid")
@@ -78,20 +78,7 @@ internal class AccountControllerTest : TestUtils() {
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            //.andExpect(MockMvcResultMatchers.jsonPath("$.iban").value(iban))
-    }
-
-    @Test
-    fun whenGetAccountByIbanRequestWithValidIban_thenReturn200() {
-        `when`(accountService.getAccountByIban(iban)).thenReturn(createAccount())
-
-        mockMvc.perform(
-            MockMvcRequestBuilders.get("/v1/accounts/$iban")
-                .content(this.mapper.writeValueAsString(iban))
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.iban").value(iban))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.results").value(1))
     }
 
     @Test

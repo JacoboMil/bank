@@ -107,13 +107,13 @@ paths:
     get:
       tags:
       - Accounts
-      summary: User Accounts
-      description: Retrieve a list of accounts with same owner
-      operationId: get_accounts_by_user
+      summary: Accounts
+      description: Retrieve a list of accounts
+      operationId: get_accounts
       parameters:
       - name: userId
         in: query
-        required: true
+        required: false
         style: form
         explode: true
         schema:
@@ -128,30 +128,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountsResponse'
-  /accounts/{iban}:
-    get:
-      tags:
-        - Accounts
-      summary: Account info
-      description: Retrieve account information
-      operationId: get_account_by_iban
-      parameters:
-        - name: iban
-          in: path
-          required: true
-          style: simple
-          explode: false
-          schema:
-            maxLength: 36
-            pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-            type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountResponse'
   /accounts/{accountId}:
     get:
       tags:

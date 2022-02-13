@@ -43,20 +43,11 @@ class AccountController(
         )
     }
 
-    override fun getAccountsByUser(userId: UUID): ResponseEntity<AccountsResponse> {
-        log.info("getAccountsByUser userId:$userId")
+    override fun getAccounts(userId: UUID?): ResponseEntity<AccountsResponse> {
+        log.info("getAccounts")
         return ResponseEntity.ok(
             accountsResponseConverter.convert(
-                accountService.getAccountsByUser(userId)
-            )
-        )
-    }
-
-    override fun getAccountByIban(iban: String): ResponseEntity<AccountResponse> {
-        log.info("getAccountsByIban iban:$iban")
-        return ResponseEntity.ok(
-            accountResponseConverter.convert(
-                accountService.getAccountByIban(iban)
+                accountService.getAccounts(userId)
             )
         )
     }

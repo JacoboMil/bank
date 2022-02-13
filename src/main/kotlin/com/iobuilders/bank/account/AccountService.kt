@@ -34,12 +34,13 @@ class AccountService(
         return accountRepository.findByIdOrNull(accountId)  ?: throw AccountNotFoundException("Account with accountId: $accountId not found")
     }
 
-    fun getAccountsByUser(userId: UUID): List<Account> {
-        return accountRepository.findByUserId(userId)
-    }
-
-    fun getAccountByIban(iban: String): Account {
-        return accountRepository.findByIban(iban) ?: throw AccountNotFoundException("Account with IBAN: $iban not found")
+    fun getAccounts(userId: UUID?): List<Account> {
+        var accounts = accountRepository.findAll()
+        userId?.let {
+            userRepository.findByIdOrNull(it) ?: throw UserNotFoundException("User: $userId was not found.")
+            accounts = accounts.filter { account -> account.userId == it }
+        }
+        return accounts
     }
 
     fun updateAccount(
@@ -67,4 +68,5 @@ class AccountService(
         account.amount = newAmount
         return account
     }
+
 }

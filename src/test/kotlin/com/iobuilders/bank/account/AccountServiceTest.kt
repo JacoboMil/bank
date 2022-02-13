@@ -80,25 +80,6 @@ internal class AccountServiceTest: TestUtils() {
     }
 
     @Test
-    fun getAccountByIbanTest() {
-        `when`(accountRepository.findByIban(any())).thenReturn(createAccount())
-
-        val result = accountService.getAccountByIban(iban)
-
-        verify(accountRepository, times(1)).findByIban(iban)
-        assertNotNull(result)
-        assertEquals(result.iban, iban)
-    }
-
-    @Test
-    fun getAccountByIbanWithInvalidIbanTest() {
-        val exception = assertThrows<AccountNotFoundException> {
-            accountService.getAccountByIban(iban)
-        }
-        assertEquals("Account with IBAN: $iban not found", exception.message)
-    }
-
-    @Test
     fun updateAccountAddAmountOperationTest() {
         val newAmount = amount.multiply(BigDecimal(2))
         val accountUpdated = createAccount()
@@ -130,12 +111,13 @@ internal class AccountServiceTest: TestUtils() {
     }
 
     @Test
-    fun getAccountsByUserTest() {
-        `when`(accountRepository.findByUserId(any())).thenReturn(listOf(createAccount()))
+    fun getAccountsTest() {
+        `when`(accountRepository.findAll()).thenReturn(listOf(createAccount()))
+        `when`(userRepository.findById(any())).thenReturn(Optional.of(createUser()))
 
-        val result = accountService.getAccountsByUser(uuid)
+        val result = accountService.getAccounts(uuid)
 
-        verify(accountRepository, times(1)).findByUserId(uuid)
+        verify(accountRepository, times(1)).findAll()
         assertNotNull(result)
         assertEquals(result.count(), 1)
     }
