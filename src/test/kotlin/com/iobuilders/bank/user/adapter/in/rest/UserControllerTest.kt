@@ -36,7 +36,7 @@ internal class UserControllerTest : TestUtils() {
         mapper = jacksonObjectMapper()
         userResponseConverter = UserResponseConverter()
         userController = UserController(userService, userResponseConverter)
-        mockMvc = MockMvcBuilders.standaloneSetup(UserController(userService, userResponseConverter)).build()
+        mockMvc = MockMvcBuilders.standaloneSetup(userController).build()
     }
 
     @Test

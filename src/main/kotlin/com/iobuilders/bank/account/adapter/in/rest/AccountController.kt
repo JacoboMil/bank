@@ -52,6 +52,15 @@ class AccountController(
         )
     }
 
+    override fun getAccountByIban(iban: String): ResponseEntity<AccountResponse> {
+        log.info("getAccountsByIban iban:$iban")
+        return ResponseEntity.ok(
+            accountResponseConverter.convert(
+                accountService.getAccountByIban(iban)
+            )
+        )
+    }
+
     override fun updateAccount(accountId: UUID, updateAccountRequest: UpdateAccountRequest): ResponseEntity<AccountResponse> {
         log.info("updateAccount accountId:$accountId with $updateAccountRequest")
         return ResponseEntity.ok(

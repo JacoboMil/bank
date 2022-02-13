@@ -38,7 +38,7 @@ class AccountService(
         return accountRepository.findByUserId(userId)
     }
 
-    fun getAccountByIBAN(iban: String): Account {
+    fun getAccountByIban(iban: String): Account {
         return accountRepository.findByIban(iban) ?: throw AccountNotFoundException("Account with IBAN: $iban not found")
     }
 
@@ -55,14 +55,14 @@ class AccountService(
     }
 
     private fun addAmount(accountId: UUID, amount: BigDecimal): Account {
-        var account = accountRepository.getById(accountId)
+        var account = accountRepository.findByIdOrNull(accountId)  ?: throw AccountNotFoundException("Account with accountId: $accountId not found")
         var newAmount = account.amount.plus(amount)
         account.amount = newAmount
         return account
     }
 
     private fun substractAmount(accountId: UUID, amount: BigDecimal): Account {
-        var account = accountRepository.getById(accountId)
+        var account = accountRepository.findByIdOrNull(accountId)  ?: throw AccountNotFoundException("Account with accountId: $accountId not found")
         var newAmount = account.amount.subtract(amount)
         account.amount = newAmount
         return account
