@@ -1,9 +1,8 @@
 package com.iobuilders.bank.user.adapter.`in`.rest
 
 import com.iobuilders.bank.BaseExceptionHandler
-import com.iobuilders.bank.user.exception.UserNotFoundException
-import com.iobuilders.bank.user.exception.UsernameAlreadyExistsException
-import org.slf4j.LoggerFactory
+import com.iobuilders.bank.user.domain.exception.UsernameAlreadyExistsException
+import org.slf4j.LoggerFactory.getLogger
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -16,14 +15,7 @@ import org.zalando.problem.Status
 class UserExceptionHandler : BaseExceptionHandler() {
 
     companion object {
-        private val log = LoggerFactory.getLogger(UserExceptionHandler::class.java)
-    }
-
-    @ExceptionHandler(value = [(UserNotFoundException::class)])
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun handleUserNotFound(ex: UserNotFoundException): ResponseEntity<Problem> {
-        log.warn(ex.message)
-        return problemResponseBuilder(Status.NOT_FOUND, ex, ex.title)
+        private val log = getLogger(UserExceptionHandler::class.java)
     }
 
     @ExceptionHandler(value = [(UsernameAlreadyExistsException::class)])
@@ -32,5 +24,4 @@ class UserExceptionHandler : BaseExceptionHandler() {
         log.warn(ex.message)
         return problemResponseBuilder(Status.CONFLICT, ex, ex.title)
     }
-
 }

@@ -22,14 +22,14 @@ paths:
     post:
       tags:
       - Users
-      summary: Create new user
+      summary: Register a new user
       description: Register a user in the system
-      operationId: create_user
+      operationId: register_user
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRequest'
+              $ref: '#/components/schemas/RegisterUserRequest'
         required: true
       responses:
         201:
@@ -38,51 +38,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
-  /users/{userId}:
-    get:
-      tags:
-      - Users
-      summary: Get user info
-      description: Retrieve user information
-      operationId: get_user_by_id
-      parameters:
-      - name: userId
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          maxLength: 36
-          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-          type: string
-          format: uuid
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserResponse'
-    delete:
-      tags:
-        - Users
-      summary: Delete user
-      description: Delete user information
-      operationId: delete_user
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          style: simple
-          explode: false
-          schema:
-            maxLength: 36
-            pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-            type: string
-            format: uuid
-      responses:
-        204:
-          description: No content
 
   /accounts:
     post:
@@ -104,61 +59,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
-    get:
-      tags:
-      - Accounts
-      summary: Accounts
-      description: Retrieve a list of accounts
-      operationId: get_accounts
-      parameters:
-      - name: userId
-        in: query
-        required: false
-        style: form
-        explode: true
-        schema:
-          maxLength: 36
-          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-          type: string
-          format: uuid
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountsResponse'
+
   /accounts/{accountId}:
-    get:
-      tags:
-      - Accounts
-      summary: Account info
-      description: Retrieve account information
-      operationId: get_account_by_id
-      parameters:
-      - name: accountId
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          maxLength: 36
-          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-          type: string
-          format: uuid
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountResponse'
     patch:
       tags:
       - Accounts
-      summary: Update account Amount
+      summary: Account deposit
       description: Update account Balance
-      operationId: update_account
+      operationId: update_account_balance
       parameters:
       - name: accountId
         in: path
@@ -174,7 +82,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateAccountRequest'
+              $ref: '#/components/schemas/AccountDepositRequest'
         required: true
       responses:
         200:
@@ -183,44 +91,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
-  /transactions:
+
+  /accounts/{iban}/balances:
     get:
       tags:
-      - Transactions
-      summary: Account Transactions
-      description: Get Transactions by account
-      operationId: get_transactions
+        - Accounts
+      summary: Accounts
+      description: Retrieve account balance
+      operationId: get_account_balance
       parameters:
-      - name: originAccountIban
-        in: query
-        required: false
-        style: form
-        explode: true
-        schema:
-          maxLength: 24
-          pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
-          type: string
-      - name: destinationAccountIban
-        in: query
-        required: false
-        style: form
-        explode: true
-        schema:
-          maxLength: 24
-          pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
-          type: string
+        - name: iban
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maxLength: 24
+            pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
+            type: string
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransactionsResponse'
+                $ref: '#/components/schemas/AccountBalanceResponse'
+
+  /accounts/{iban}/transactions:
+    get:
+      tags:
+        - Accounts
+      summary: Accounts
+      description: Retrieve all transactions for an account
+      operationId: get_account_transactions
+      parameters:
+        - name: iban
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maxLength: 24
+            pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountTransactionsResponse'
+
+  /transactions:
     post:
       tags:
       - Transactions
       summary: New Transaction
-      description: Create new Transaction
+      description: Create a new Transaction
       operationId: create_transaction
       requestBody:
         content:
@@ -235,34 +162,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
-  /transactions/{transactionId}:
-    get:
-      tags:
-      - Transactions
-      summary: Transaction info
-      description: Get Transaction info by transactionId
-      operationId: get_transaction_by_id
-      parameters:
-      - name: transactionId
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          maxLength: 36
-          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-          type: string
-          format: uuid
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionResponse'
+
 components:
   schemas:
-    UserRequest:
+    RegisterUserRequest:
       type: object
       required:
         - username
@@ -315,18 +218,77 @@ components:
           pattern: (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
           type: string
           example: jdoe@iobuilders.com
-    TransactionsResponse:
+
+    CreateAccountRequest:
+      type: object
+      required:
+        - userId
+      properties:
+        userId:
+          maxLength: 36
+          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
+          type: string
+          format: uuid
+    AccountDepositRequest:
+      type: object
+      required:
+        - amount
+      properties:
+        amount:
+          type: number
+          example: 00.00
+    AccountBalanceResponse:
       type: object
       properties:
-        results:
-          maximum: 900
+        accountId:
+          maxLength: 36
+          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
+          type: string
+          format: uuid
+          example: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        iban:
+          maxLength: 24
+          pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
+          type: string
+          example: ES0000000000000000000000
+        balance:
+          maximum: 90000000000000
           minimum: 0
           type: number
-          example: 1
+          example: 00.00
+    AccountTransactionsResponse:
+      type: object
+      properties:
+        iban:
+          maxLength: 24
+          pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
+          type: string
+          example: ES0000000000000000000000
         transactions:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionResponse'
+          $ref: '#/components/schemas/TransactionsResponse'
+    AccountResponse:
+      type: object
+      properties:
+        accountId:
+          maxLength: 36
+          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
+          type: string
+          format: uuid
+          example: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        iban:
+          maxLength: 24
+          pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
+          type: string
+          example: ES0000000000000000000000
+        owner:
+          type: string
+          example: /users/ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7
+        amount:
+          maximum: 90000000000000
+          minimum: 0
+          type: number
+          example: 00.00
+
     TransactionRequest:
       type: object
       required:
@@ -372,54 +334,7 @@ components:
         transactionDate:
           type: string
           format: date-time
-    CreateAccountRequest:
-      type: object
-      required:
-        - userId
-      properties:
-        userId:
-          maxLength: 36
-          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-          type: string
-          format: uuid
-    UpdateAccountRequest:
-      type: object
-      required:
-        - amount
-        - operation
-      properties:
-        amount:
-          type: number
-          example: 00.00
-        operation:
-          type: string
-          nullable: false
-          enum:
-            - add
-            - substract
-    AccountResponse:
-      type: object
-      properties:
-        accountId:
-          maxLength: 36
-          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-          type: string
-          format: uuid
-          example: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-        iban:
-          maxLength: 24
-          pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
-          type: string
-          example: ES0000000000000000000000
-        owner:
-          type: string
-          example: /users/ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7
-        amount:
-          maximum: 90000000000000
-          minimum: 0
-          type: number
-          example: 00.00
-    AccountsResponse:
+    TransactionsResponse:
       type: object
       properties:
         results:
@@ -427,7 +342,8 @@ components:
           minimum: 0
           type: number
           example: 1
-        accounts:
+        transactions:
           type: array
           items:
-            $ref: '#/components/schemas/AccountResponse'
+            $ref: '#/components/schemas/TransactionResponse'
+

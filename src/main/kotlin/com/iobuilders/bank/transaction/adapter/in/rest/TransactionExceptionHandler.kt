@@ -1,8 +1,7 @@
 package com.iobuilders.bank.transaction.adapter.`in`.rest
 
 import com.iobuilders.bank.BaseExceptionHandler
-import com.iobuilders.bank.transaction.exception.BalanceNotEnoughException
-import com.iobuilders.bank.transaction.exception.TransactionNotFoundException
+import com.iobuilders.bank.transaction.domain.exception.BalanceNotEnoughException
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,13 +16,6 @@ class TransactionExceptionHandler : BaseExceptionHandler() {
 
     companion object {
         private val log = getLogger(TransactionExceptionHandler::class.java)
-    }
-
-    @ExceptionHandler(value = [(TransactionNotFoundException::class)])
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun handleTransactionNotFound(ex: TransactionNotFoundException): ResponseEntity<Problem> {
-        log.warn(ex.message)
-        return problemResponseBuilder(Status.NOT_FOUND, ex, ex.title)
     }
 
     @ExceptionHandler(value = [(BalanceNotEnoughException::class)])

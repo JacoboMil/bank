@@ -1,11 +1,10 @@
 package com.iobuilders.bank.account.adapter.`in`.rest
 
-import com.iobuilders.bank.account.model.Account
+import com.iobuilders.bank.account.domain.model.Account
+import com.iobuilders.bank.model.AccountBalanceResponse
 import com.iobuilders.bank.model.AccountResponse
-import com.iobuilders.bank.model.AccountsResponse
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
-import java.math.BigDecimal
 
 @Component
 class AccountResponseConverter : Converter<Account, AccountResponse> {
@@ -20,13 +19,13 @@ class AccountResponseConverter : Converter<Account, AccountResponse> {
 }
 
 @Component
-class AccountsResponseConverter(
-    private val converter: AccountResponseConverter
-) : Converter<List<Account>, AccountsResponse> {
-    override fun convert(source: List<Account>): AccountsResponse? {
-        return AccountsResponse(
-            BigDecimal(source.count()),
-            source.map { converter.convert(it) }
+class AccountBalanceResponseConverter : Converter<Account, AccountBalanceResponse> {
+    override fun convert(source: Account): AccountBalanceResponse {
+        return AccountBalanceResponse(
+            accountId = source.id,
+            iban = source.iban,
+            balance = source.amount,
         )
     }
 }
+

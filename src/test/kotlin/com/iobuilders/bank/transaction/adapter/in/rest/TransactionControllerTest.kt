@@ -1,9 +1,10 @@
-package com.iobuilders.bank.user.adapter.`in`.rest
+package com.iobuilders.bank.transaction.adapter.`in`.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.iobuilders.bank.TestUtils
-import com.iobuilders.bank.user.domain.usecase.RegisterUserUseCase
+import com.iobuilders.bank.account.adapter.`in`.rest.TransactionResponseConverter
+import com.iobuilders.bank.transaction.domain.usecase.MoneyTransferUseCase
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
@@ -20,37 +21,40 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 
 @RunWith(SpringRunner::class)
-@WebMvcTest(UserController::class)
-internal class UserControllerTest : TestUtils() {
+@WebMvcTest(TransactionController::class)
+internal class TransactionControllerTest : TestUtils() {
 
     private lateinit var mockMvc: MockMvc
     private lateinit var mapper: ObjectMapper
-    private lateinit var userResponseConverter: UserResponseConverter
-    private lateinit var userController: UserController
+    private lateinit var transactionResponseConverter: TransactionResponseConverter
+    private lateinit var transactionController: TransactionController
+
     @MockBean
-    private lateinit var registerUserService: RegisterUserUseCase
+    private lateinit var moneyTransferService: MoneyTransferUseCase
 
     @BeforeEach
     fun setUp() {
         openMocks(this)
         mapper = jacksonObjectMapper()
-        userResponseConverter = UserResponseConverter()
-        userController = UserController(registerUserService, userResponseConverter)
-        mockMvc = standaloneSetup(userController).build()
+        transactionResponseConverter = TransactionResponseConverter()
+        transactionController = TransactionController(
+            moneyTransferService,
+            transactionResponseConverter
+        )
+        mockMvc = standaloneSetup(transactionController).build()
     }
 
     @Test
-    fun whenPostRequestWithCorrectUser_thenReturnsStatus201() {
-        `when`(registerUserService.registerUser(any(), any(), any(), any())).thenReturn(createUser())
+    fun whenPostRequestWithCorrectTransaction_thenReturnsStatus201() {
+        `when`(moneyTransferService.moneyTransfer(any(), any(), any())).thenReturn(createTransaction())
 
         mockMvc.perform(
-            post("/v1/users")
-                .content(this.mapper.writeValueAsString(createUserRequest()))
+            post("/v1/transactions")
+                .content(this.mapper.writeValueAsString(createTransactionRequest()))
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isCreated)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.email").value(email))
+            .andExpect(jsonPath("$.amount").value(amount))
+
     }
-
-
 }

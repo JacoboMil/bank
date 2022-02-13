@@ -59,6 +59,8 @@ dependencies {
     implementation("org.zalando:jackson-datatype-problem:${property("problemVersion")}")
     implementation("org.zalando:problem-gson:${property("problemVersion")}")
 
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${property("datatypeVersion")}")
+
     implementation("com.h2database:h2")
 
     implementation("org.iban4j:iban4j:${property("iban4jVersion")}")

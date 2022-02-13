@@ -1,6 +1,8 @@
 package com.iobuilders.bank.account.adapter.`in`.rest
 
-import com.iobuilders.bank.account.AccountService
+import com.iobuilders.bank.account.domain.usecase.AccountDepositUseCase
+import com.iobuilders.bank.account.domain.usecase.CreateAccountUseCase
+import com.iobuilders.bank.account.domain.usecase.DisplayAccountUseCase
 import com.iobuilders.bank.api.AccountsApi
 import com.iobuilders.bank.model.*
 import org.slf4j.LoggerFactory.getLogger
@@ -12,9 +14,12 @@ import java.util.*
 
 @RestController
 class AccountController(
-    private val accountService: AccountService,
+    private val createAccountService: CreateAccountUseCase,
+    private val displayAccountService: DisplayAccountUseCase,
+    private val accountDepositService: AccountDepositUseCase,
     private val accountResponseConverter: AccountResponseConverter,
-    private val accountsResponseConverter: AccountsResponseConverter
+    private val accountBalanceResponseConverter: AccountBalanceResponseConverter,
+    private val transactionsResponseConverter: TransactionsResponseConverter
 ): AccountsApi {
 
     companion object {
@@ -24,7 +29,7 @@ class AccountController(
     override fun createAccount(createAccountRequest: CreateAccountRequest): ResponseEntity<AccountResponse> {
         log.info("createAccount AccountRequest:$createAccountRequest")
         val userId = createAccountRequest.userId
-        val account = accountService.createAccount(userId)
+        val account = createAccountService.createAccount(userId)
 
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
@@ -34,31 +39,37 @@ class AccountController(
         return ResponseEntity.created(uri).body(accountResponseConverter.convert(account))
     }
 
-    override fun getAccountById(accountId: UUID): ResponseEntity<AccountResponse> {
-        log.info("getAccountById accountId:$accountId")
+    override fun getAccountBalance(iban: String): ResponseEntity<AccountBalanceResponse> {
+        log.info("getAccountBalance IBAN:$iban")
+        return ResponseEntity.ok(
+            accountBalanceResponseConverter.convert(
+                displayAccountService.displayAccountBalance(iban)
+            )
+        )
+    }
+
+    override fun getAccountTransactions(iban: String): ResponseEntity<AccountTransactionsResponse> {
+        log.info("getAccountTransactions IBAN:$iban")
+
+        val transactions = displayAccountService.displayAccountTransactions(iban)
+
+        return ResponseEntity.ok(
+            AccountTransactionsResponse(
+                iban = iban,
+                transactions = transactionsResponseConverter.convert(transactions)
+            )
+        )
+    }
+
+    override fun updateAccountBalance(
+        accountId: UUID,
+        accountDepositRequest: AccountDepositRequest
+    ): ResponseEntity<AccountResponse> {
+        log.info("updateAccountBalance accountId:$accountId with $accountDepositRequest")
         return ResponseEntity.ok(
             accountResponseConverter.convert(
-                accountService.getAccount(accountId)
+                accountDepositService.accountDeposit(accountId, accountDepositRequest.amount)
             )
         )
     }
-
-    override fun getAccounts(userId: UUID?): ResponseEntity<AccountsResponse> {
-        log.info("getAccounts")
-        return ResponseEntity.ok(
-            accountsResponseConverter.convert(
-                accountService.getAccounts(userId)
-            )
-        )
-    }
-
-    override fun updateAccount(accountId: UUID, updateAccountRequest: UpdateAccountRequest): ResponseEntity<AccountResponse> {
-        log.info("updateAccount accountId:$accountId with $updateAccountRequest")
-        return ResponseEntity.ok(
-            accountResponseConverter.convert(
-                accountService.updateAccount(accountId, updateAccountRequest.amount, updateAccountRequest.operation)
-            )
-        )
-    }
-
 }
