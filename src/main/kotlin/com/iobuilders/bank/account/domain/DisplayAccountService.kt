@@ -1,11 +1,13 @@
 package com.iobuilders.bank.account.domain
 
-import com.iobuilders.bank.account.domain.exception.AccountNotFoundException
 import com.iobuilders.bank.account.domain.model.Account
+import com.iobuilders.bank.account.domain.problem.AccountNotFoundProblem
 import com.iobuilders.bank.account.domain.usecase.DisplayAccountUseCase
 import com.iobuilders.bank.transaction.domain.TransactionRepository
 import com.iobuilders.bank.transaction.domain.model.Transaction
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class DisplayAccountService(
@@ -13,15 +15,15 @@ class DisplayAccountService(
     private val transactionRepository: TransactionRepository
     ): DisplayAccountUseCase {
 
-    override fun displayAccountBalance(iban: String): Account {
-        return accountRepository.findByIban(iban) ?: throw AccountNotFoundException("Account with IBAN: $iban not exists")
+    override fun displayAccountBalance(accountId: UUID): Account {
+        return accountRepository.findByIdOrNull(accountId) ?: throw AccountNotFoundProblem(accountId)
     }
 
-    override fun displayAccountTransactions(iban: String): List<Transaction> {
-        accountRepository.findByIban(iban) ?: throw AccountNotFoundException("Account with IBAN: $iban not exists")
+    override fun displayAccountTransactions(accountId: UUID): List<Transaction> {
+        val account = accountRepository.findByIdOrNull(accountId) ?: throw AccountNotFoundProblem(accountId)
 
-        val originIbanTransactions = transactionRepository.findByOriginAccountIban(iban)
-        val destinationIbanTransactions = transactionRepository.findByDestinationAccountIban(iban)
+        val originIbanTransactions = transactionRepository.findByOriginAccountIban(account.iban)
+        val destinationIbanTransactions = transactionRepository.findByDestinationAccountIban(account.iban)
 
         val allTransactions = mutableListOf<Transaction>()
 

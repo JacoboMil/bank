@@ -1,9 +1,9 @@
 package com.iobuilders.bank.transaction.domain
 
 import com.iobuilders.bank.account.domain.AccountRepository
-import com.iobuilders.bank.account.domain.exception.AccountNotFoundException
 import com.iobuilders.bank.account.domain.model.Account
-import com.iobuilders.bank.transaction.domain.exception.BalanceNotEnoughException
+import com.iobuilders.bank.account.domain.problem.AccountNotFoundProblem
+import com.iobuilders.bank.transaction.domain.problem.BalanceNotEnoughProblem
 import com.iobuilders.bank.transaction.domain.model.Operation
 import com.iobuilders.bank.transaction.domain.model.Transaction
 import com.iobuilders.bank.transaction.domain.usecase.MoneyTransferUseCase
@@ -23,14 +23,14 @@ class MoneyTransferService(
 
     override fun moneyTransfer(
         amount: BigDecimal,
-        destinationAccountIban: String,
-        originAccountIban: String
+        destinationAccountId: UUID,
+        originAccountId: UUID
     ): Transaction {
 
-        val originAccount = retrieveAccount(originAccountIban)
-        val destinationAccount = retrieveAccount(destinationAccountIban)
+        val originAccount = retrieveAccount(originAccountId)
+        val destinationAccount = retrieveAccount(destinationAccountId)
 
-        if (isEnoughBalance(amount, originAccount.amount)) throw BalanceNotEnoughException("Account: ${originAccount.iban} does not have enough balance.")
+        if (isEnoughBalance(amount, originAccount.amount)) throw BalanceNotEnoughProblem(originAccount.id)
 
         balanceTransfer(originAccount.id, destinationAccount.id, amount)
 
@@ -38,15 +38,15 @@ class MoneyTransferService(
             Transaction(
                 id = UUID.randomUUID(),
                 amount = amount,
-                destinationAccountIban = destinationAccountIban,
-                originAccountIban = originAccountIban,
+                destinationAccountIban = destinationAccount.iban,
+                originAccountIban = originAccount.iban,
                 transactionDate = OffsetDateTime.now()
             )
         )
     }
 
-    private fun retrieveAccount(iban: String): Account {
-        return accountRepository.findByIban(iban)?: throw AccountNotFoundException("Account with IBAN: $iban not exists")
+    private fun retrieveAccount(accountId: UUID): Account {
+        return accountRepository.findByIdOrNull(accountId)?: throw AccountNotFoundProblem(accountId)
     }
 
     private fun isEnoughBalance(amount: BigDecimal, accountAmount: BigDecimal): Boolean {
@@ -75,18 +75,14 @@ class MoneyTransferService(
     }
 
     private fun addAmount(accountId: UUID, amount: BigDecimal): Account {
-        var account = accountRepository.findByIdOrNull(accountId)  ?: throw AccountNotFoundException(
-            "Account with accountId: $accountId not found"
-        )
+        var account = accountRepository.findByIdOrNull(accountId)  ?: throw AccountNotFoundProblem(accountId)
         var newAmount = account.amount.plus(amount)
         account.amount = newAmount
         return account
     }
 
     private fun substractAmount(accountId: UUID, amount: BigDecimal): Account {
-        var account = accountRepository.findByIdOrNull(accountId)  ?: throw AccountNotFoundException(
-            "Account with accountId: $accountId not found"
-        )
+        var account = accountRepository.findByIdOrNull(accountId)  ?: throw AccountNotFoundProblem(accountId)
         var newAmount = account.amount.subtract(amount)
         account.amount = newAmount
         return account

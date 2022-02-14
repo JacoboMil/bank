@@ -1,7 +1,7 @@
 package com.iobuilders.bank.user.domain
 
 import com.iobuilders.bank.TestUtils
-import com.iobuilders.bank.user.domain.exception.UsernameAlreadyExistsException
+import com.iobuilders.bank.user.domain.problem.UsernameAlreadyExistsProblem
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -43,9 +43,9 @@ internal class RegisterUserServiceTest : TestUtils() {
     fun usernameConflictTest() {
         `when`(userRepository.save(any())).thenThrow(DataIntegrityViolationException::class.java)
 
-        val exception = org.junit.jupiter.api.assertThrows<UsernameAlreadyExistsException> {
+        val exception = org.junit.jupiter.api.assertThrows<UsernameAlreadyExistsProblem> {
             registerUserService.registerUser(text, null, null, null)
         }
-        assertEquals("Username $text already exists", exception.message)
+        assertEquals("Username Already Exists: Username $text already exists", exception.message)
     }
 }

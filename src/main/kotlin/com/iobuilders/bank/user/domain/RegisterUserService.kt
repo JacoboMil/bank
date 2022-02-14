@@ -1,7 +1,7 @@
 package com.iobuilders.bank.user.domain
 
+import com.iobuilders.bank.user.domain.problem.UsernameAlreadyExistsProblem
 import com.iobuilders.bank.user.domain.usecase.RegisterUserUseCase
-import com.iobuilders.bank.user.domain.exception.UsernameAlreadyExistsException
 import com.iobuilders.bank.user.domain.model.User
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
@@ -23,7 +23,7 @@ class RegisterUserService(
                 )
             )
         } catch (ex: DataIntegrityViolationException) {
-            throw UsernameAlreadyExistsException("Username $username already exists")
+            throw UsernameAlreadyExistsProblem(username)
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.iobuilders.bank.account.domain
 
 import com.iobuilders.bank.TestUtils
+import com.iobuilders.bank.account.domain.problem.UserNotFoundProblem
 import com.iobuilders.bank.user.domain.UserRepository
-import com.iobuilders.bank.account.domain.exception.UserNotFoundException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -45,9 +45,9 @@ internal class CreateAccountServiceTest: TestUtils() {
 
     @Test
     fun createAccountWithNotFoundUserTest() {
-        val exception = org.junit.jupiter.api.assertThrows<UserNotFoundException> {
+        val exception = org.junit.jupiter.api.assertThrows<UserNotFoundProblem> {
             createAccountService.createAccount(uuid)
         }
-        assertEquals("The account was not created because user: $uuid was not found.", exception.message)
+        assertEquals("Not found: User $uuid not found.", exception.message)
     }
 }

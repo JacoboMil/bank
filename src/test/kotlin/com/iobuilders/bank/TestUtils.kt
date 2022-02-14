@@ -63,7 +63,7 @@ open class TestUtils {
         )
     }
 
-    fun updateAccountRequest(): AccountDepositRequest {
+    fun createAccountDepositRequest(): AccountDepositRequest {
         return AccountDepositRequest(
             amount = amount,
         )
@@ -82,8 +82,8 @@ open class TestUtils {
     fun createTransactionRequest(): TransactionRequest {
         return TransactionRequest(
             amount = amount,
-            destinationAccountIban = iban,
-            originAccountIban = iban,
+            destinationAccountId = uuid,
+            originAccountId = uuid
         )
     }
 

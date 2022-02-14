@@ -25,8 +25,8 @@ class TransactionController(
         log.info("createTransaction transactionRequest:$transactionRequest")
         val transaction = moneyTransferService.moneyTransfer(
             amount = transactionRequest.amount,
-            destinationAccountIban = transactionRequest.destinationAccountIban,
-            originAccountIban = transactionRequest.originAccountIban
+            destinationAccountId = transactionRequest.destinationAccountId,
+            originAccountId = transactionRequest.originAccountId
         )
 
         val uri: URI = ServletUriComponentsBuilder.fromCurrentRequest()

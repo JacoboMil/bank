@@ -39,23 +39,23 @@ class AccountController(
         return ResponseEntity.created(uri).body(accountResponseConverter.convert(account))
     }
 
-    override fun getAccountBalance(iban: String): ResponseEntity<AccountBalanceResponse> {
-        log.info("getAccountBalance IBAN:$iban")
+    override fun getAccountBalance(accountId: UUID): ResponseEntity<AccountBalanceResponse> {
+        log.info("getAccountBalance accountId:$accountId")
         return ResponseEntity.ok(
             accountBalanceResponseConverter.convert(
-                displayAccountService.displayAccountBalance(iban)
+                displayAccountService.displayAccountBalance(accountId)
             )
         )
     }
 
-    override fun getAccountTransactions(iban: String): ResponseEntity<AccountTransactionsResponse> {
-        log.info("getAccountTransactions IBAN:$iban")
+    override fun getAccountTransactions(accountId: UUID): ResponseEntity<AccountTransactionsResponse> {
+        log.info("getAccountTransactions accountId:$accountId")
 
-        val transactions = displayAccountService.displayAccountTransactions(iban)
+        val transactions = displayAccountService.displayAccountTransactions(accountId)
 
         return ResponseEntity.ok(
             AccountTransactionsResponse(
-                iban = iban,
+                accountId = accountId,
                 transactions = transactionsResponseConverter.convert(transactions)
             )
         )

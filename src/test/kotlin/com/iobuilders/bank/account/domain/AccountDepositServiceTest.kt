@@ -1,7 +1,7 @@
 package com.iobuilders.bank.account.domain
 
 import com.iobuilders.bank.TestUtils
-import com.iobuilders.bank.account.domain.exception.AccountNotFoundException
+import com.iobuilders.bank.account.domain.problem.AccountNotFoundProblem
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -49,9 +49,9 @@ internal class AccountDepositServiceTest: TestUtils() {
 
     @Test
     fun accountNotFoundTest() {
-        val exception = assertThrows<AccountNotFoundException> {
+        val exception = assertThrows<AccountNotFoundProblem> {
             accountDepositService.accountDeposit(uuid, amount)
         }
-        assertEquals("Account with accountId: $uuid not found", exception.message)
+        assertEquals("Not found: Account $uuid not found.", exception.message)
     }
 }

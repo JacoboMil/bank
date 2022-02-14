@@ -2,8 +2,8 @@ package com.iobuilders.bank.transaction.domain
 
 import com.iobuilders.bank.TestUtils
 import com.iobuilders.bank.account.domain.AccountRepository
-import com.iobuilders.bank.account.domain.exception.AccountNotFoundException
-import com.iobuilders.bank.transaction.domain.exception.BalanceNotEnoughException
+import com.iobuilders.bank.account.domain.problem.AccountNotFoundProblem
+import com.iobuilders.bank.transaction.domain.problem.BalanceNotEnoughProblem
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
@@ -42,10 +42,9 @@ internal class MoneyTransferServiceTest: TestUtils() {
         `when`(accountRepository.saveAndFlush(any())).thenReturn(createAccount())
         `when`(transactionRepository.save(any())).thenReturn(createTransaction())
 
-        val result = moneyTransferService.moneyTransfer(amountTransfer, iban, iban)
+        val result = moneyTransferService.moneyTransfer(amountTransfer, uuid, uuid)
 
-        verify(accountRepository, times(2)).findByIban(any())
-        verify(accountRepository, times(2)).findById(any())
+        verify(accountRepository, times(4)).findById(any())
         verify(accountRepository, times(2)).saveAndFlush(any())
         verify(transactionRepository, times(1)).save(any())
         assertNotNull(result)
@@ -55,10 +54,10 @@ internal class MoneyTransferServiceTest: TestUtils() {
 
     @Test
     fun accountNotFoundWhenTransferRequestTest() {
-        val exception = org.junit.jupiter.api.assertThrows<AccountNotFoundException> {
-            moneyTransferService.moneyTransfer(amountTransfer, iban, iban)
+        val exception = org.junit.jupiter.api.assertThrows<AccountNotFoundProblem> {
+            moneyTransferService.moneyTransfer(amountTransfer, uuid, uuid)
         }
-        assertEquals("Account with IBAN: $iban not exists", exception.message)
+        assertEquals("Not found: Account $uuid not found.", exception.message)
     }
 
     @Test
@@ -68,10 +67,10 @@ internal class MoneyTransferServiceTest: TestUtils() {
         `when`(accountRepository.saveAndFlush(any())).thenReturn(createAccount())
         `when`(transactionRepository.save(any())).thenReturn(createTransaction())
 
-        val exception = org.junit.jupiter.api.assertThrows<BalanceNotEnoughException> {
-            moneyTransferService.moneyTransfer(amount, iban, iban)
+        val exception = org.junit.jupiter.api.assertThrows<BalanceNotEnoughProblem> {
+            moneyTransferService.moneyTransfer(amount, uuid, uuid)
         }
-        assertEquals("Account: $iban does not have enough balance.", exception.message)
+        assertEquals("Account with insufficient balance: Account $uuid does not have enough balance.", exception.message)
     }
 
 }

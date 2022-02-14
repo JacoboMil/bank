@@ -74,12 +74,12 @@ internal class AccountControllerTest : TestUtils() {
     }
 
     @Test
-    fun whenGetAccountBalanceRequestWithValidIban_thenReturn200() {
-        `when`(displayAccountService.displayAccountBalance(iban)).thenReturn(createAccount())
+    fun whenGetAccountBalanceRequestWithValidId_thenReturn200() {
+        `when`(displayAccountService.displayAccountBalance(any())).thenReturn(createAccount())
 
         mockMvc.perform(
-            get("/v1/accounts/$iban/balances")
-                .content(this.mapper.writeValueAsString(iban))
+            get("/v1/accounts/$uuid/balances")
+                .content(this.mapper.writeValueAsString(uuid))
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -87,25 +87,25 @@ internal class AccountControllerTest : TestUtils() {
     }
 
     @Test
-    fun whenGetAccountTransactionsRequestWithValidIban_thenReturn200() {
-        `when`(displayAccountService.displayAccountTransactions(iban)).thenReturn(listOf(createTransaction()))
+    fun whenGetAccountTransactionsRequestWithValidId_thenReturn200() {
+        `when`(displayAccountService.displayAccountTransactions(any())).thenReturn(listOf(createTransaction()))
 
         mockMvc.perform(
-            get("/v1/accounts/$iban/transactions")
-                .content(this.mapper.writeValueAsString(iban))
+            get("/v1/accounts/$uuid/transactions")
+                .content(this.mapper.writeValueAsString(uuid))
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.iban").value(iban))
+            .andExpect(jsonPath("$.accountId").value(uuid.toString()))
     }
 
     @Test
-    fun whenUpdateAccountRequestWithValidIban_thenReturn200() {
+    fun whenUpdateAccountRequestWithValidId_thenReturn200() {
         `when`(accountDepositService.accountDeposit(any(), any())).thenReturn(createAccount())
 
         mockMvc.perform(
             patch("/v1/accounts/$uuid")
-                .content(this.mapper.writeValueAsString(updateAccountRequest()))
+                .content(this.mapper.writeValueAsString(createAccountDepositRequest()))
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
