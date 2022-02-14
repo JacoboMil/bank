@@ -75,6 +75,18 @@ it must be built with the following command or using the Gradle plugins availabl
 ./gradlew bootRun
 ```
 
+### Docker
+First of all you need to build io-bank docker image with the following command
+```
+docker build -t io-bank . 
+```
+and then
+
+```
+docker run -p 8080:8080 io-bank
+```
+
+
 Once the service is started you can access the swagger <http://localhost:8080/swagger-ui/index.html#/>
 
 ## Architecture
