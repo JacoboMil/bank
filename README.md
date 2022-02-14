@@ -91,7 +91,6 @@ To use a DDD approach, the logic has been based on use cases that can be interpr
 | Money deposit             | AccountDepositUseCase         | Offers the functionality of depositing money into an existing account.            |
 | Display account           | AccountDisplayUseCase         | Offers the functionality of viewing balance and movements of an existing account. |
 | Money transfer            | MoneyTransferUseCase          | Offers the functionality to transfer money from one existing account to another.  |
-| 
 
 
 ### API Contract
