@@ -28,7 +28,6 @@ internal class AccountControllerTest : TestUtils() {
     private lateinit var mockMvc: MockMvc
     private lateinit var mapper: ObjectMapper
     private lateinit var accountResponseConverter: AccountResponseConverter
-    private lateinit var accountBalanceResponseConverter: AccountBalanceResponseConverter
     private lateinit var transactionResponseConverter: TransactionResponseConverter
     private lateinit var transactionsResponseConverter: TransactionsResponseConverter
     private lateinit var accountController: AccountController
@@ -45,7 +44,6 @@ internal class AccountControllerTest : TestUtils() {
         openMocks(this)
         mapper = jacksonObjectMapper()
         accountResponseConverter = AccountResponseConverter()
-        accountBalanceResponseConverter = AccountBalanceResponseConverter()
         transactionResponseConverter = TransactionResponseConverter()
         transactionsResponseConverter = TransactionsResponseConverter(transactionResponseConverter)
         accountController = AccountController(
@@ -53,7 +51,6 @@ internal class AccountControllerTest : TestUtils() {
             displayAccountService,
             accountDepositService,
             accountResponseConverter,
-            accountBalanceResponseConverter,
             transactionsResponseConverter
         )
         mockMvc = standaloneSetup(accountController).build()
@@ -74,11 +71,11 @@ internal class AccountControllerTest : TestUtils() {
     }
 
     @Test
-    fun whenGetAccountBalanceRequestWithValidId_thenReturn200() {
-        `when`(displayAccountService.displayAccountBalance(any())).thenReturn(createAccount())
+    fun whenGetAccountRequestWithValidId_thenReturn200() {
+        `when`(displayAccountService.displayAccount(any())).thenReturn(createAccount())
 
         mockMvc.perform(
-            get("/v1/accounts/$uuid/balances")
+            get("/v1/accounts/$uuid")
                 .content(this.mapper.writeValueAsString(uuid))
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)

@@ -38,7 +38,7 @@ internal class DisplayAccountServiceTest: TestUtils() {
     fun displayAccountBalanceTest() {
         `when`(accountRepository.findById(any())).thenReturn(Optional.of(createAccount()))
 
-        val result = displayAccountService.displayAccountBalance(uuid)
+        val result = displayAccountService.displayAccount(uuid)
 
         verify(accountRepository, times(1)).findById(uuid)
         assertNotNull(result)
@@ -63,7 +63,7 @@ internal class DisplayAccountServiceTest: TestUtils() {
     @Test
     fun accountNotFoundWhenBalancesRequestTest() {
         val exception = org.junit.jupiter.api.assertThrows<AccountNotFoundProblem> {
-            displayAccountService.displayAccountBalance(uuid)
+            displayAccountService.displayAccount(uuid)
         }
         assertEquals("Not found: Account $uuid not found.", exception.message)
     }

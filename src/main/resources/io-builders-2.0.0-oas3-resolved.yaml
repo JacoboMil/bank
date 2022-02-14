@@ -61,6 +61,30 @@ paths:
                 $ref: '#/components/schemas/AccountResponse'
 
   /accounts/{accountId}:
+    get:
+      tags:
+        - Accounts
+      summary: Accounts
+      description: Retrieve account information
+      operationId: get_account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
     patch:
       tags:
       - Accounts
@@ -91,33 +115,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
-
-  /accounts/{accountId}/balances:
-    get:
-      tags:
-        - Accounts
-      summary: Accounts
-      description: Retrieve account balance
-      operationId: get_account_balance
-      parameters:
-        - name: accountId
-          in: path
-          required: true
-          style: simple
-          explode: false
-          schema:
-            maxLength: 36
-            pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-            type: string
-            format: uuid
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountBalanceResponse'
-
   /accounts/{accountId}/transactions:
     get:
       tags:
@@ -237,25 +234,6 @@ components:
         - amount
       properties:
         amount:
-          type: number
-          example: 00.00
-    AccountBalanceResponse:
-      type: object
-      properties:
-        accountId:
-          maxLength: 36
-          pattern: \b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b
-          type: string
-          format: uuid
-          example: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-        iban:
-          maxLength: 24
-          pattern: ([a-zA-Z]{2})\s*\t*(\d{2})\s*\t*(\d{4})\s*\t*(\d{4})\s*\t*(\d{2})\s*\t*(\d{10})
-          type: string
-          example: ES0000000000000000000000
-        balance:
-          maximum: 90000000000000
-          minimum: 0
           type: number
           example: 00.00
     AccountTransactionsResponse:

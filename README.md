@@ -1,11 +1,11 @@
 # Bank-ioBuilders
 
-- [Bank-ioBuilders](#poc-iobuilders)
-    - [Changelog](#changelog)
+- [Bank-ioBuilders]
     - [Description](#description)
     - [Configuration](#configuration)
     - [Test & Build](#test--build)
     - [Run](#run)
+      - [Docker](#docker)
     - [Architecture](#architecture)
       - [Domain-Driven-Design](#domain-driven-design)
       - [API Contract](#api-contract)
@@ -18,7 +18,6 @@
           - [CreateAccountRequest](#createaccountrequest)
           - [AccountDepositRequest](#accountdepositrequest)
           - [AccountResponse](#accountresponse)
-          - [AccountBalanceResponse](#accountbalanceresponse)
           - [AccountTransactionsResponse](#accounttransactionsresponse)
           - [TransactionRequest](#transactionrequest)
           - [TransactionResponse](#transactionresponse)
@@ -28,13 +27,6 @@
         - [Unit tests](#unit-tests)
         - [Acceptance tests](#acceptance-tests)
 
-
-
-## Changelog
-
-| DATE       | VERSION | STATUS |
-|:-----------|:--------|:-------|
-| 14/02/2022 | 1.0     | OK     | 
 
 ## Description
 
@@ -55,7 +47,7 @@ This microservice is developed with Kotlin with SpringBoot as Framework.
 | KEY                 | DEFAULT | DESCRIPTION                                      |
 |:--------------------|:--------|:-------------------------------------------------|
 | problem.stackTraces | false   | In order to include stackTraces in api responses | 
-| server.port         | 8080    | Server HHTP port                                 | 
+| server.port         | 8080    | Server HTTP port                                 | 
 
 
 ## Test & Build
@@ -63,7 +55,7 @@ This microservice is developed with Kotlin with SpringBoot as Framework.
 This microservice has a code generator. 
 
 To follow an API-First approach, the API specification based on OpenApiSpecification was created. 
-In order to generate the code related to interfaces (ports in this case) and DTOs, once the project has been cloned, 
+In order to generate the code related with interfaces (ports in this case) and DTOs, once the project has been cloned, 
 it must be built with the following command or using the Gradle plugins available for the different IDEs.
 
 ```
@@ -96,13 +88,13 @@ Once the service is started you can access the swagger <http://localhost:8080/sw
 
 To use a DDD approach, the logic has been based on use cases that can be interpreted from the PoC requirements.
 
-| REQUIREMENTS              | USESCASES                     | DESCRIPTION                                                                       |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------|
-| User registration         | RegisterUserUseCase           | Offers user registration functionality in the system.                             |
-| Account creation (wallet) | CreateAccountUseCase          | Offers the functionality of account creation for an existing user.                |
-| Money deposit             | AccountDepositUseCase         | Offers the functionality of depositing money into an existing account.            |
-| Display account           | AccountDisplayUseCase         | Offers the functionality of viewing balance and movements of an existing account. |
-| Money transfer            | MoneyTransferUseCase          | Offers the functionality to transfer money from one existing account to another.  |
+| REQUIREMENTS              | USES CASES            | DESCRIPTION                                                                       |
+|---------------------------|-----------------------|-----------------------------------------------------------------------------------|
+| User registration         | RegisterUserUseCase   | Offers user registration functionality in the system.                             |
+| Account creation (wallet) | CreateAccountUseCase  | Offers the functionality of account creation for an existing user.                |
+| Money deposit             | AccountDepositUseCase | Offers the functionality of depositing money into an existing account.            |
+| Display account           | AccountDisplayUseCase | Offers the functionality of viewing balance and movements of an existing account. |
+| Money transfer            | MoneyTransferUseCase  | Offers the functionality to transfer money from one existing account to another.  |
 
 
 ### API Contract
@@ -111,7 +103,7 @@ In order to expose these functionalities, the following API contract has been cr
 
 #### Users
 
-In order to register an User:
+In order to register a new user:
 ![Users](doc-images/usersAPI.png)
 
 > POST /v1/users
@@ -178,9 +170,9 @@ Parameters:
 
 Response:
 
-| HTTP CODE | DESCRIPTION | SCHEMA                                             |
-|-----------|-------------|----------------------------------------------------|
-| 200       | OK          | [AccountBalanceResponse](#accountbalanceresponse)  |
+| HTTP CODE | DESCRIPTION | SCHEMA                                |
+|-----------|-------------|---------------------------------------|
+| 200       | OK          | [AccountResponse](#accountresponse)   |
 
 > GET /v1/accounts/{accountId}/transactions
 
@@ -257,14 +249,6 @@ Response:
 | owner     | string |
 | amount    | number |
 
-##### AccountBalanceResponse
-
-| PROPERTY  | TYPE   |
-|-----------|--------|
-| accountId | string |
-| iban      | string |
-| balance   | number |
-
 ##### AccountTransactionsResponse
 
 | PROPERTY     | TYPE                 |
@@ -322,3 +306,9 @@ Currently, the coverage is as follows:
 
 ### Acceptance Tests
 
+To support acceptance testing, the project includes a collection of Postman and Environment.
+Once imported both, we can start the collection.
+
+If everything is correct, we will obtain a result like the following:
+
+![AcceptanceTests](doc-images/acceptanceTests.png)

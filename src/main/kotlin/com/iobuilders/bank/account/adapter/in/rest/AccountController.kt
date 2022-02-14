@@ -18,7 +18,6 @@ class AccountController(
     private val displayAccountService: DisplayAccountUseCase,
     private val accountDepositService: AccountDepositUseCase,
     private val accountResponseConverter: AccountResponseConverter,
-    private val accountBalanceResponseConverter: AccountBalanceResponseConverter,
     private val transactionsResponseConverter: TransactionsResponseConverter
 ): AccountsApi {
 
@@ -39,11 +38,11 @@ class AccountController(
         return ResponseEntity.created(uri).body(accountResponseConverter.convert(account))
     }
 
-    override fun getAccountBalance(accountId: UUID): ResponseEntity<AccountBalanceResponse> {
+    override fun getAccount(accountId: UUID): ResponseEntity<AccountResponse> {
         log.info("getAccountBalance accountId:$accountId")
         return ResponseEntity.ok(
-            accountBalanceResponseConverter.convert(
-                displayAccountService.displayAccountBalance(accountId)
+            accountResponseConverter.convert(
+                displayAccountService.displayAccount(accountId)
             )
         )
     }

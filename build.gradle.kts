@@ -76,7 +76,7 @@ dependencyManagement {
 }
 
 val oasPackage = "com.iobuilders.bank"
-val oasSpecLocation = "src/main/resources/JacoboMil-io-builders-2.0.0-oas3-resolved.yaml"
+val oasSpecLocation = "src/main/resources/io-builders-2.0.0-oas3-resolved.yaml"
 val oasGenOutputDir = project.layout.buildDirectory.dir("generated-oas")
 
 tasks.register("generateServer", org.openapitools.generator.gradle.plugin.tasks.GenerateTask::class) {

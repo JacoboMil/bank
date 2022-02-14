@@ -6,7 +6,7 @@ import java.util.*
 
 interface DisplayAccountUseCase {
 
-    fun displayAccountBalance(accountId: UUID): Account
+    fun displayAccount(accountId: UUID): Account
     fun displayAccountTransactions(accountId: UUID): List<Transaction>
 
 }

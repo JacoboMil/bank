@@ -15,7 +15,7 @@ class DisplayAccountService(
     private val transactionRepository: TransactionRepository
     ): DisplayAccountUseCase {
 
-    override fun displayAccountBalance(accountId: UUID): Account {
+    override fun displayAccount(accountId: UUID): Account {
         return accountRepository.findByIdOrNull(accountId) ?: throw AccountNotFoundProblem(accountId)
     }
 

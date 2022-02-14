@@ -1,854 +1,878 @@
 {
 	"info": {
-		"_postman_id": "8b78e2d0-5764-4222-8762-d24153daa153",
-		"name": "iobuilders",
+		"_postman_id": "4e117e93-9188-4836-938e-d0f96ba4d8fa",
+		"name": "ioBuilders-bank",
+		"description": "IOBuilders-Bank\n\nContact Support:\n Email: you@your-company.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "APIs",
+			"name": "1. RegisterUser",
 			"item": [
 				{
-					"name": "Users",
-					"item": [
+					"name": "RegisterUser1",
+					"event": [
 						{
-							"name": "User201",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 201\", function () {\r",
-											"    pm.response.to.have.status(201);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('userID');\r",
-											"  pm.expect(jsonData).to.have.property('name');\r",
-											"  pm.expect(jsonData).to.have.property('surname');\r",
-											"  pm.expect(jsonData).to.have.property('mail');\r",
-											"  pm.expect(jsonData).to.have.property('uri');\r",
-											"});\r",
-											"\r",
-											"postman.setEnvironmentVariable(\"userID\", jsonData.userID);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"mail\": \"mail@mail1.com\",\r\n  \"name\": \"Name\",\r\n  \"pass\": \"cGFzc3dvcmQ=\",\r\n  \"surname\": \"Surname Name\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/v1/users",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"users"
-									]
-								}
-							},
-							"response": []
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"    pm.expect(jsonData).to.have.property('userId');",
+									"    pm.expect(jsonData).to.have.property('username');",
+									"    pm.expect(jsonData).to.have.property('firstName');",
+									"    pm.expect(jsonData).to.have.property('lastName');",
+									"    pm.expect(jsonData).to.have.property('email');",
+									"});",
+									"",
+									"postman.setEnvironmentVariable(\"userId1\", jsonData.userId);"
+								],
+								"type": "text/javascript"
+							}
 						},
 						{
-							"name": "User201B",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 201\", function () {\r",
-											"    pm.response.to.have.status(201);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('userID');\r",
-											"  pm.expect(jsonData).to.have.property('name');\r",
-											"  pm.expect(jsonData).to.have.property('surname');\r",
-											"  pm.expect(jsonData).to.have.property('mail');\r",
-											"  pm.expect(jsonData).to.have.property('uri');\r",
-											"});\r",
-											"\r",
-											"postman.setEnvironmentVariable(\"userID2\", jsonData.userID);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"mail\": \"mail2@mail2.com\",\r\n  \"name\": \"Name\",\r\n  \"surname\": \"Surname Text\",\r\n  \"uri\": \"/users/ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7\",\r\n  \"userID\": \"ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/v1/users",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"users"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "User400",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 400\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('message');\r",
-											"  pm.expect(jsonData).to.have.property('status');\r",
-											"  pm.expect(jsonData).to.have.property('timestamp');\r",
-											"});\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"mail\": \"mail@mail1.com\",\r\n  \"name\": \"Name\",\r\n  \"pass\": \"cGFzc3dvcmQ=\",\r\n  \"surname\": \"Surname Name\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/v1/users",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"users"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "User200",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 201\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('userID');\r",
-											"  pm.expect(jsonData).to.have.property('name');\r",
-											"  pm.expect(jsonData).to.have.property('surname');\r",
-											"  pm.expect(jsonData).to.have.property('mail');\r",
-											"  pm.expect(jsonData).to.have.property('uri');\r",
-											"});\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v1/users/{{userID}}",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"users",
-										"{{userID}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "User400",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 400\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('timestamp');\r",
-											"  pm.expect(jsonData).to.have.property('status');\r",
-											"  pm.expect(jsonData).to.have.property('error');\r",
-											"  pm.expect(jsonData).to.have.property('path');\r",
-											"});\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v1/users/bla",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"users",
-										"bla"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "User404",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 404\", function () {\r",
-											"    pm.response.to.have.status(404);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('timestamp');\r",
-											"  pm.expect(jsonData).to.have.property('message');\r",
-											"  pm.expect(jsonData).to.have.property('status');\r",
-											"});\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v1/users/ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"users",
-										"ca53bbc5-c35c-4b5c-8095-0d154ab8d6c7"
-									]
-								}
-							},
-							"response": []
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"username\": \"johndoe\",\n \"email\": \"jdoe@iobuilders.com\",\n \"lastName\": \"doe\",\n \"firstName\": \"john\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/users",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Register a user in the system"
+					},
+					"response": []
 				},
 				{
-					"name": "Accounts",
-					"item": [
+					"name": "RegisterUser2",
+					"event": [
 						{
-							"name": "Account201",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 201\", function () {\r",
-											"    pm.response.to.have.status(201);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('accountID');\r",
-											"  pm.expect(jsonData).to.have.property('iban');\r",
-											"  pm.expect(jsonData).to.have.property('uri');\r",
-											"  pm.expect(jsonData).to.have.property('owner');\r",
-											"  pm.expect(jsonData).to.have.property('amount');\r",
-											"});\r",
-											"\r",
-											"postman.setEnvironmentVariable(\"accountID\", jsonData.accountID);\r",
-											"postman.setEnvironmentVariable(\"iban\", jsonData.iban);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"userID\": \"{{userID}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/v1/accounts",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"accounts"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Account 201B",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 201\", function () {\r",
-											"    pm.response.to.have.status(201);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('accountID');\r",
-											"  pm.expect(jsonData).to.have.property('iban');\r",
-											"  pm.expect(jsonData).to.have.property('uri');\r",
-											"  pm.expect(jsonData).to.have.property('owner');\r",
-											"  pm.expect(jsonData).to.have.property('amount');\r",
-											"});\r",
-											"\r",
-											"postman.setEnvironmentVariable(\"accountID2\", jsonData.accountID);\r",
-											"postman.setEnvironmentVariable(\"iban2\", jsonData.iban);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"userID\": \"{{userID2}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/v1/accounts",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"accounts"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Account400",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 400\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('timestamp');\r",
-											"  pm.expect(jsonData).to.have.property('status');\r",
-											"  pm.expect(jsonData).to.have.property('error');\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"userID\": \"badtext\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/v1/accounts",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"accounts"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Accounts200",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('results');\r",
-											"  pm.expect(jsonData).to.have.property('accounts');\r",
-											"});\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v1/accounts?userID={{userID}}",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"accounts"
-									],
-									"query": [
-										{
-											"key": "userID",
-											"value": "{{userID}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Accounts200B",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('results');\r",
-											"  pm.expect(jsonData).to.have.property('accounts');\r",
-											"});\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v1/accounts?userID={{userID2}}",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"accounts"
-									],
-									"query": [
-										{
-											"key": "userID",
-											"value": "{{userID2}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "accountsID200",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('accountID');\r",
-											"  pm.expect(jsonData).to.have.property('iban');\r",
-											"  pm.expect(jsonData).to.have.property('owner');\r",
-											"  pm.expect(jsonData).to.have.property('uri');\r",
-											"  pm.expect(jsonData).to.have.property('amount');\r",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v1/accounts/{{accountID}}",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"accounts",
-										"{{accountID}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Account200",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('accountID');\r",
-											"  pm.expect(jsonData).to.have.property('iban');\r",
-											"  pm.expect(jsonData).to.have.property('uri');\r",
-											"  pm.expect(jsonData).to.have.property('owner');\r",
-											"  pm.expect(jsonData).to.have.property('amount');\r",
-											"});\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v1/accounts/{{accountID}}?amount=300.50",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"accounts",
-										"{{accountID}}"
-									],
-									"query": [
-										{
-											"key": "amount",
-											"value": "300.50"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Account200B",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('accountID');\r",
-											"  pm.expect(jsonData).to.have.property('iban');\r",
-											"  pm.expect(jsonData).to.have.property('uri');\r",
-											"  pm.expect(jsonData).to.have.property('owner');\r",
-											"  pm.expect(jsonData).to.have.property('amount');\r",
-											"});\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/v1/accounts/{{accountID2}}?amount=300.50",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"accounts",
-										"{{accountID2}}"
-									],
-									"query": [
-										{
-											"key": "amount",
-											"value": "300.50"
-										}
-									]
-								}
-							},
-							"response": []
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"    pm.expect(jsonData).to.have.property('userId');",
+									"    pm.expect(jsonData).to.have.property('username');",
+									"    pm.expect(jsonData).to.have.property('firstName');",
+									"    pm.expect(jsonData).to.have.property('lastName');",
+									"    pm.expect(jsonData).to.have.property('email');",
+									"});",
+									"",
+									"postman.setEnvironmentVariable(\"userId2\", jsonData.userId);"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"username\": \"johndoe2\",\n \"email\": \"jdoe@iobuilders.com\",\n \"lastName\": \"doe\",\n \"firstName\": \"john\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/users",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Register a user in the system"
+					},
+					"response": []
 				},
 				{
-					"name": "Transactions",
-					"item": [
+					"name": "RegisterUserConflict",
+					"event": [
 						{
-							"name": "Transaction201",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 201\", function () {\r",
-											"    pm.response.to.have.status(201);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('transactionID');\r",
-											"  pm.expect(jsonData).to.have.property('beneficiaryIBAN');\r",
-											"  pm.expect(jsonData).to.have.property('issuerIBAN');\r",
-											"  pm.expect(jsonData).to.have.property('uri');\r",
-											"  pm.expect(jsonData).to.have.property('date');\r",
-											"  pm.expect(jsonData).to.have.property('amount');\r",
-											"});\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"amount\": 50.55,\r\n  \"beneficiaryIBAN\": \"{{iban2}}\",\r\n  \"issuerIBAN\": \"{{iban}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/v1/transactions",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"transactions"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Transaction400",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 400\", function () {\r",
-											"    pm.response.to.have.status(400);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('message');\r",
-											"  pm.expect(jsonData).to.have.property('status');\r",
-											"  pm.expect(jsonData).to.have.property('timestamp');\r",
-											"});\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"amount\": 550.55,\r\n  \"beneficiaryIBAN\": \"{{iban}}\",\r\n  \"issuerIBAN\": \"{{iban2}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{host}}/v1/transactions",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"transactions"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Transaction200",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"});\r",
-											"\r",
-											"var jsonData = JSON.parse(responseBody);\r",
-											"\r",
-											"pm.test('correct parameters', function() {\r",
-											"  pm.expect(jsonData).to.have.property('results');\r",
-											"  pm.expect(jsonData).to.have.property('transactions');\r",
-											"});\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{host}}/v1/transactions?iban={{iban}}",
-									"host": [
-										"{{host}}"
-									],
-									"path": [
-										"v1",
-										"transactions"
-									],
-									"query": [
-										{
-											"key": "iban",
-											"value": "{{iban}}"
-										}
-									]
-								}
-							},
-							"response": []
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"  pm.expect(jsonData).to.have.property('title');",
+									"  pm.expect(jsonData).to.have.property('status');",
+									"  pm.expect(jsonData).to.have.property('detail');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"username\": \"johndoe\",\n \"email\": \"jdoe@iobuilders.com\",\n \"lastName\": \"doe\",\n \"firstName\": \"john\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/users",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Register a user in the system"
+					},
+					"response": []
 				}
 			]
+		},
+		{
+			"name": "2. CreateAccount",
+			"item": [
+				{
+					"name": "CreateAccount1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"    pm.expect(jsonData).to.have.property('accountId');",
+									"    pm.expect(jsonData).to.have.property('iban');",
+									"    pm.expect(jsonData).to.have.property('owner');",
+									"    pm.expect(jsonData).to.have.property('amount');",
+									"});",
+									"",
+									"postman.setEnvironmentVariable(\"accountId1\", jsonData.accountId);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"userId\": \"{{userId1}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/accounts",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"accounts"
+							]
+						},
+						"description": "Create a new account"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateAccount2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"    pm.expect(jsonData).to.have.property('accountId');",
+									"    pm.expect(jsonData).to.have.property('iban');",
+									"    pm.expect(jsonData).to.have.property('owner');",
+									"    pm.expect(jsonData).to.have.property('amount');",
+									"});",
+									"",
+									"postman.setEnvironmentVariable(\"accountId2\", jsonData.accountId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"userId\": \"{{userId2}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/accounts",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"accounts"
+							]
+						},
+						"description": "Create a new account"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateAccountWithInvalidUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"  pm.expect(jsonData).to.have.property('title');",
+									"  pm.expect(jsonData).to.have.property('status');",
+									"  pm.expect(jsonData).to.have.property('detail');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"userId\": \"57c81690-f7f4-4a5d-912b-5e0efc927576\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/accounts",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"accounts"
+							]
+						},
+						"description": "Create a new account"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. AccountDeposit",
+			"item": [
+				{
+					"name": "AccountDeposit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"    pm.expect(jsonData).to.have.property('accountId');",
+									"    pm.expect(jsonData).to.have.property('iban');",
+									"    pm.expect(jsonData).to.have.property('owner');",
+									"    pm.expect(jsonData).to.have.property('amount');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"amount\": 6700\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/accounts/:accountId",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								":accountId"
+							],
+							"variable": [
+								{
+									"key": "accountId",
+									"value": "{{accountId1}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Update account Balance"
+					},
+					"response": []
+				},
+				{
+					"name": "AccountDepositInvalidAccount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"  pm.expect(jsonData).to.have.property('title');",
+									"  pm.expect(jsonData).to.have.property('status');",
+									"  pm.expect(jsonData).to.have.property('detail');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"amount\": 6700\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/accounts/:accountId",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								":accountId"
+							],
+							"variable": [
+								{
+									"key": "accountId",
+									"value": "aa2f1c78-266d-40ea-851f-0c4afd47d50a",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Update account Balance"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. MoneyTransfer",
+			"item": [
+				{
+					"name": "MoneyTransfer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"    pm.expect(jsonData).to.have.property('transactionId');",
+									"    pm.expect(jsonData).to.have.property('amount');",
+									"    pm.expect(jsonData).to.have.property('destinationAccountIban');",
+									"    pm.expect(jsonData).to.have.property('originAccountIban');",
+									"    pm.expect(jsonData).to.have.property('transactionDate');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"amount\": 1400,\n \"destinationAccountId\": \"{{accountId2}}\",\n \"originAccountId\": \"{{accountId1}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/transactions",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"transactions"
+							]
+						},
+						"description": "Create a new Transaction"
+					},
+					"response": []
+				},
+				{
+					"name": "MoneyTransferInsufficientBalance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"  pm.expect(jsonData).to.have.property('title');",
+									"  pm.expect(jsonData).to.have.property('status');",
+									"  pm.expect(jsonData).to.have.property('detail');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"amount\": 8400,\n \"destinationAccountId\": \"{{accountId1}}\",\n \"originAccountId\": \"{{accountId2}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/transactions",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"transactions"
+							]
+						},
+						"description": "Create a new Transaction"
+					},
+					"response": []
+				},
+				{
+					"name": "MoneyTransferInvalidAccount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"  pm.expect(jsonData).to.have.property('title');",
+									"  pm.expect(jsonData).to.have.property('status');",
+									"  pm.expect(jsonData).to.have.property('detail');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"amount\": 8400,\n \"destinationAccountId\": \"09690599-2b69-42c9-8161-a563e782fd2d\",\n \"originAccountId\": \"aa2f1c78-266d-40ea-851f-0c3afd46d50a\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/transactions",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"transactions"
+							]
+						},
+						"description": "Create a new Transaction"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. AccountBalances&Transactions",
+			"item": [
+				{
+					"name": "AccountInfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"    pm.expect(jsonData).to.have.property('accountId');",
+									"    pm.expect(jsonData).to.have.property('iban');",
+									"    pm.expect(jsonData).to.have.property('owner');",
+									"    pm.expect(jsonData).to.have.property('amount');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/accounts/:accountId",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								":accountId"
+							],
+							"variable": [
+								{
+									"key": "accountId",
+									"value": "{{accountId1}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve account balance"
+					},
+					"response": []
+				},
+				{
+					"name": "AccountInfoInvalidAccount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"  pm.expect(jsonData).to.have.property('title');",
+									"  pm.expect(jsonData).to.have.property('status');",
+									"  pm.expect(jsonData).to.have.property('detail');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/accounts/:accountId",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								":accountId"
+							],
+							"variable": [
+								{
+									"key": "accountId",
+									"value": "db554cdd-742d-a809-0eb2-da0059270315",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve account balance"
+					},
+					"response": []
+				},
+				{
+					"name": "AccountTransactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"    pm.expect(jsonData).to.have.property('accountId');",
+									"    pm.expect(jsonData).to.have.property('transactions');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/accounts/:accountId/transactions",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								":accountId",
+								"transactions"
+							],
+							"variable": [
+								{
+									"key": "accountId",
+									"value": "{{accountId1}}",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve all transactions for an account"
+					},
+					"response": []
+				},
+				{
+					"name": "AccountTransactionsInvalidAccount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.test('correct parameters', function() {",
+									"  pm.expect(jsonData).to.have.property('title');",
+									"  pm.expect(jsonData).to.have.property('status');",
+									"  pm.expect(jsonData).to.have.property('detail');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{baseUrl}}/accounts/:accountId/transactions",
+							"host": [
+								"{{host}}{{baseUrl}}"
+							],
+							"path": [
+								"accounts",
+								":accountId",
+								"transactions"
+							],
+							"variable": [
+								{
+									"key": "accountId",
+									"value": "09690599-2b69-43c9-8161-a563e782fd2d",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Retrieve all transactions for an account"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/v1",
+			"type": "string"
 		}
 	]
 }
