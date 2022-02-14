@@ -292,9 +292,7 @@ Response:
 
 
 Zalando's problem-spring-web has been implemented to handle error responses.
-
 This further simplifies error handling, reducing the amount of code.
-
 It also allows the extension of the response with stackTraces by modifying the property in application.yaml
 
 ![ZalandoProblem](doc-images/problem.png)
@@ -307,7 +305,6 @@ Sleuth provides everything necessary to carry out traceability, propagating the 
 ### Unit Tests
 
 Unit tests have been developed to cover the different functionalities. 
-
 Currently, the coverage is as follows:
 
 ![UnitTests](doc-images/unitTestCoverage.png)
