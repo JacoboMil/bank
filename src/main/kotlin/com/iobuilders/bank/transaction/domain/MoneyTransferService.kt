@@ -58,7 +58,7 @@ class MoneyTransferService(
     }
 
     private fun balanceTransfer(originAccountId: UUID, destinationAccountId: UUID, amount: BigDecimal) {
-        updateAccount(originAccountId, amount, Operation.SUBSTRACT_AMOUNT)
+        updateAccount(originAccountId, amount, Operation.SUBTRACT_AMOUNT)
         updateAccount(destinationAccountId, amount, Operation.ADD_AMOUNT)
     }
 
@@ -69,7 +69,7 @@ class MoneyTransferService(
     ): Account {
         val account: Account = when (operation) {
             Operation.ADD_AMOUNT -> addAmount(accountId, amount)
-            Operation.SUBSTRACT_AMOUNT -> substractAmount(accountId, amount)
+            Operation.SUBTRACT_AMOUNT -> subtractAmount(accountId, amount)
         }
         return accountRepository.saveAndFlush(account)
     }
@@ -81,7 +81,7 @@ class MoneyTransferService(
         return account
     }
 
-    private fun substractAmount(accountId: UUID, amount: BigDecimal): Account {
+    private fun subtractAmount(accountId: UUID, amount: BigDecimal): Account {
         var account = accountRepository.findByIdOrNull(accountId)  ?: throw AccountNotFoundProblem(accountId)
         var newAmount = account.amount.subtract(amount)
         account.amount = newAmount
