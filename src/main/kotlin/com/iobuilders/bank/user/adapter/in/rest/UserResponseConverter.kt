@@ -1,7 +1,7 @@
 package com.iobuilders.bank.user.adapter.`in`.rest
 
 import com.iobuilders.bank.model.UserResponse
-import com.iobuilders.bank.user.model.User
+import com.iobuilders.bank.user.domain.model.User
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 

@@ -1,12 +1,11 @@
 package com.iobuilders.bank
 
-import com.iobuilders.bank.account.model.Account
-import com.iobuilders.bank.model.CreateAccountRequest
-import com.iobuilders.bank.model.UpdateAccountRequest
-import com.iobuilders.bank.model.UserRequest
-import com.iobuilders.bank.model.UserResponse
-import com.iobuilders.bank.user.model.User
+import com.iobuilders.bank.account.domain.model.Account
+import com.iobuilders.bank.model.*
+import com.iobuilders.bank.transaction.domain.model.Transaction
+import com.iobuilders.bank.user.domain.model.User
 import java.math.BigDecimal
+import java.time.OffsetDateTime
 import java.util.*
 
 open class TestUtils {
@@ -15,7 +14,9 @@ open class TestUtils {
     var iban = "ES3704747712313420831048"
     var text = "test"
     var email = "test@test.com"
-    var amount = BigDecimal.valueOf(1400.85)
+    var amount: BigDecimal = BigDecimal.valueOf(1400.85)
+    var amountTransfer: BigDecimal = BigDecimal.valueOf(140.85)
+
 
 
     fun createUser(): User {
@@ -28,8 +29,8 @@ open class TestUtils {
         )
     }
 
-    fun createUserRequest(): UserRequest {
-        return UserRequest(
+    fun createUserRequest(): RegisterUserRequest {
+        return RegisterUserRequest(
             username = text,
             firstName = text,
             lastName = text,
@@ -62,10 +63,27 @@ open class TestUtils {
         )
     }
 
-    fun updateAccountRequest(): UpdateAccountRequest {
-        return UpdateAccountRequest(
+    fun createAccountDepositRequest(): AccountDepositRequest {
+        return AccountDepositRequest(
             amount = amount,
-            operation = UpdateAccountRequest.Operation.add
+        )
+    }
+
+    fun createTransaction(): Transaction {
+        return Transaction(
+            id = uuid,
+            amount = amount,
+            destinationAccountIban = iban,
+            originAccountIban = iban,
+            transactionDate = OffsetDateTime.now()
+        )
+    }
+
+    fun createTransactionRequest(): TransactionRequest {
+        return TransactionRequest(
+            amount = amount,
+            destinationAccountId = uuid,
+            originAccountId = uuid
         )
     }
 

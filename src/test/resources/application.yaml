@@ -1,6 +1,6 @@
 spring:
   application:
-    name: iobuilders-bank
+    name: bank-iobuilders
   profiles:
     active: test
 

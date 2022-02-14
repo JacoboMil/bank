@@ -1,6 +1,19 @@
 spring:
   application:
-    name: iobuilders-bank
+    name: bank-iobuilders
 
 problem:
   stackTraces: false
+
+server:
+  port: 8080
+
+management:
+  endpoint:
+    health:
+      show-details: always
+      status:
+        http-mapping:
+          down: 500
+          out_of_service: 503
+          warning: 500
