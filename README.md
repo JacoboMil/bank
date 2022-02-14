@@ -27,7 +27,7 @@
         - [Unit tests](#unit-tests)
         - [Acceptance tests](#acceptance-tests)
 
-
+  
 ## Description
 
 API proposal to simulate banking operations. The following are stated as requirements:
@@ -36,7 +36,7 @@ API proposal to simulate banking operations. The following are stated as require
 - Account creation (wallet)
 - Money deposit
 - Display account (wallet)
-  - Balance
+  - Balance 
   - Transactions
 - Money transfer
 
