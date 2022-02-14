@@ -160,7 +160,7 @@ Response:
 |-----------|-------------|-------------------------------------|
 | 200       | UPDATED     | [AccountResponse](#accountresponse) |
 
-> GET /v1/accounts/{accountId}/balances
+> GET /v1/accounts/{accountId}
 
 Parameters:
 
