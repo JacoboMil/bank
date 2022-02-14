@@ -38,6 +38,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserResponse'
+        409:
+          description: Username Already Exists
+          content:
+            "application/problem+json":
+              schema:
+                $ref: 'https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem'
 
   /accounts:
     post:
@@ -59,6 +65,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
+        404:
+          description: User Not Found
+          content:
+            "application/problem+json":
+              schema:
+                $ref: 'https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem'
 
   /accounts/{accountId}:
     get:
@@ -85,6 +97,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
+        404:
+          description: Account Not Found
+          content:
+            "application/problem+json":
+              schema:
+                $ref: 'https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem'
     patch:
       tags:
       - Accounts
@@ -115,6 +133,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountResponse'
+        404:
+          description: Account Not Found
+          content:
+            "application/problem+json":
+              schema:
+                $ref: 'https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem'
   /accounts/{accountId}/transactions:
     get:
       tags:
@@ -140,6 +164,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountTransactionsResponse'
+        404:
+          description: Account Not Found
+          content:
+            "application/problem+json":
+              schema:
+                $ref: 'https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem'
 
   /transactions:
     post:
@@ -161,6 +191,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
+        400:
+          description: Balance Not Enough
+          content:
+            "application/problem+json":
+              schema:
+                $ref: 'https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem'
+        404:
+          description: Account Not Found
+          content:
+            "application/problem+json":
+              schema:
+                $ref: 'https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem'
 
 components:
   schemas:
